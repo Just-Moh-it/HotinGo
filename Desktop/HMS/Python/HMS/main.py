@@ -1,5 +1,6 @@
 import tkinter as tk
 import mysql.connector
+from tkinter import messagebox
 
 # ===================SQL Connectivity=================
 
@@ -19,26 +20,21 @@ def checkUser(username, password):
     return cursor.fetchone()[0]>=1
 
 
-cursor.execute("select * from login;")
-print(cursor.fetchall())
-
-
 # ==============Tkinter================
 
 # Tkinter functions------------
-def login(username, password):
-    if checkUser(username, password):
+def login():
+    if checkUser(username.get(), password.get()):
         print("Logged in successfully")
-        root.destroy()
+        win.destroy()
     else:
-        label_invalid.widget.pack()
-        # label_invalid.widget.pack_forget()
-
+        messagebox.showerror(title="Invalid Credentials", message="The username and paswword don't match")
 
 
 # Window definition------------
 
 win=tk.Tk()
+win.title("Login-Hotel Management System")
 win.geometry("400x170+500+300")
 
 # Login Frame
@@ -59,8 +55,12 @@ password=tk.StringVar()
 password_tb= tk.Entry(frame_login, textvariable=password, show="•")
 password_tb.grid(row=1, column=1)
 
+# Invalid Label
+invalid_message=tk.StringVar()
+invalid_label=tk.Label(frame_login, textvariable=invalid_message)
+
 # Login Button
-login_button=tk.Button(frame_login, text="Login", height=2, width=8, onclick=login)
+login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=login)
 login_button.grid(row=2, column=1, pady=10)
 
 win.mainloop()
