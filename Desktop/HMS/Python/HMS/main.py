@@ -35,21 +35,23 @@ def login():
 
 win=tk.Tk()
 win.title("Login-Hotel Management System")
-win.geometry("400x170+500+300")
+win.geometry("290x150")
+win.resizable(0,0)
+
 
 # Login Frame
 frame_login=tk.Frame(win)
 frame_login.place(x=40, y=40)
 
 # Username tb
-tk.Label(frame_login, text="Username").grid(row=0, column=0)
+tk.Label(frame_login, text="Username ").grid(row=0, column=0)
 
 username=tk.StringVar()
 username_tb=tk.Entry(frame_login, textvariable=username)
 username_tb.grid(row=0, column=1)
 
 # Password tb
-tk.Label(frame_login, text="Password").grid(row=1, column=0)
+tk.Label(frame_login, text="Password ").grid(row=1, column=0)
 
 password=tk.StringVar()
 password_tb= tk.Entry(frame_login, textvariable=password, show="•")
@@ -61,7 +63,7 @@ invalid_label=tk.Label(frame_login, textvariable=invalid_message)
 
 # Login Button
 login_button=tk.Button(frame_login, text="Login", height=1, width=8, command=login)
-login_button.grid(row=2, column=1, pady=10)
+login_button.grid(row=2, column= 1, pady=10)
 
 win.mainloop()
 
