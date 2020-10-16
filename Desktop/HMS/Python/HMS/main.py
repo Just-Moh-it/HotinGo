@@ -17,7 +17,7 @@ cursor=connection.cursor()
 
 def checkUser(username, password):
     cursor.execute("Select count(username) from login where username='%s' and password='%s';" %(username, password))
-    return cursor.fetchone()[0]>=1;
+    return cursor.fetchone()[0]>=1
 
 
 # ==============Tkinter================
