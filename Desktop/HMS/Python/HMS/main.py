@@ -36,6 +36,7 @@ def loginWindow():
     login.resizable(0,0)
 
 
+<<<<<<< HEAD
     # Login Frame
     frame_login=tk.Frame(login)
     frame_login.place(x=40, y=40)
@@ -61,6 +62,15 @@ def loginWindow():
     password_tb= tk.Entry(frame_login, textvariable=password, show="•")
     password_tb.grid(row=2, column=1,columnspan=2)
 
+=======
+# Tkinter functions------------
+def login():
+    if checkUser(username.get(), password.get()):
+        print("Logged in successfully")
+        win.destroy()
+    else:
+        messagebox.showerror(title="Invalid Credentials", message="The username and password don't match")
+>>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     # Login Button
     login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=login_func)
@@ -70,14 +80,27 @@ def loginWindow():
     signup_button=tk.Button(frame_login, text="SignUp", height=2, width=8, command=signup_btn)
     signup_button.grid(row=3, column=2,pady=10)
 
+<<<<<<< HEAD
 def signUpWindow():
+=======
+win=tk.Tk()
+win.title("Login-Hotel Management System")
+win.geometry("290x150")
+win.resizable(0,0)
+
+>>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     # -------------Constructor-----------------
     signup=tk.Tk()
     signup.geometry("400x400+500+200")
     signup.resizable(0,0)
 
+<<<<<<< HEAD
     # --------------Tkinter layout--------------
+=======
+# Username tb
+tk.Label(frame_login, text="Username ").grid(row=0, column=0)
+>>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     # Main Frame
     frame_signup=tk.Frame(signup)
@@ -88,8 +111,13 @@ def signUpWindow():
     header['font']=header_font
     header.grid(row=0, column=1)
 
+<<<<<<< HEAD
     # Name
     tk.Label(frame_signup, text="Full Name").grid(row=1, column=0)
+=======
+# Password tb
+tk.Label(frame_login, text="Password ").grid(row=1, column=0)
+>>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     nname=tk.StringVar(signUpWindow)
     nname_tb=tk.Entry(frame_signup, textvariable=nname)
@@ -97,8 +125,14 @@ def signUpWindow():
 
 # Globally accessed variables across main.py
 
+<<<<<<< HEAD
 # header_font=font.Font(weight="bold", family="Arial", size=18)
 header_font = font.Font(size=30)
+=======
+# Login Button
+login_button=tk.Button(frame_login, text="Login", height=1, width=8, command=login)
+login_button.grid(row=2, column= 1, pady=10)
+>>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
 root= tk.Tk()
 root.withdraw()
