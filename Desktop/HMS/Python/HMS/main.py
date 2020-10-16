@@ -28,7 +28,7 @@ def login():
         print("Logged in successfully")
         win.destroy()
     else:
-        messagebox.showerror(title="Invalid Credentials", message="The username and paswword don't match")
+        messagebox.showerror(title="Invalid Credentials", message="The username and password don't match")
 
 
 # Window definition-------------
@@ -60,7 +60,7 @@ invalid_message=tk.StringVar()
 invalid_label=tk.Label(frame_login, textvariable=invalid_message)
 
 # Login Button
-login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=login)
+login_button=tk.Button(frame_login, text="Login", height=1, width=8, command=login)
 login_button.grid(row=2, column=1, pady=10)
 
 win.mainloop()
