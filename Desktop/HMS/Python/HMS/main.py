@@ -71,7 +71,7 @@ def loginWindow():
     header_font=font.Font(login, size=28)
     header=tk.Label(frame_login, text="Login")
     header['font']=header_font
-    header.grid(row=0, column=1, columnspan=2, pady=(0,10), padx=(0, 40))
+    header.grid(row=0, column=0, columnspan=2, padx=(60,0))
 
     # Username tb
     tk.Label(frame_login, text="Username").grid(row=1, column=0)
@@ -91,18 +91,21 @@ def loginWindow():
 
     # Login Button
     login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=loginFunc)
-    login_button.grid(row=3, column=1,pady=10, padx=(0,10))
+    login_button.grid(row=3, column=0, columnspan=2, pady=10, padx=(0, 25))
+
+    # Or label
+    tk.Label(frame_login, text='or').grid(row=3, column=0, columnspan=2, pady=10, padx=(75,0))
 
     # SignUp button
     signup_button=tk.Button(frame_login, text="SignUp", height=2, width=8, command=signupBtn)
-    signup_button.grid(row=3, column=2,pady=10, padx=(0,10))
+    signup_button.grid(row=3, column=0, columnspan=2, pady=10, padx=(175,0))
 
 def signUpWindow():
     header_font=font.Font(size=30)
     # -------------Constructor-----------------
     signup=tk.Tk()
     signup.title("Sign Up-Hotel Management System")
-    signup.geometry("360x260+590+290")
+    signup.geometry("535x260+450+290")
     signup.resizable(0,0)
     signup.grid_propagate(False) # Won't work without this
 
@@ -152,7 +155,10 @@ def signUpWindow():
 
     # Main Frame
     frame_signup=tk.Frame(signup)
-    frame_signup.place(x=18, y=10)
+    frame_signup.place(x=17, y=10)
+    frame_signup.columnconfigure(0, weight=6)
+    frame_signup.columnconfigure(1, weight=25)
+
     
     # Heading
     header_font=font.Font(frame_signup, size=28)
@@ -164,21 +170,21 @@ def signUpWindow():
     tk.Label(frame_signup, text="Username").grid(row=1, column=0)
 
     username=tk.StringVar(signup)
-    username_tb=tk.Entry(frame_signup, textvariable=username)
+    username_tb=tk.Entry(frame_signup, textvariable=username, width=40)
     username_tb.grid(row=1, column=1)
 
     # Password tb
     tk.Label(frame_signup, text="Password").grid(row=2, column=0)
 
     password=tk.StringVar(signup)
-    password_tb= tk.Entry(frame_signup, textvariable=password, show="•")
+    password_tb= tk.Entry(frame_signup, textvariable=password, show="•", width=40)
     password_tb.grid(row=2, column=1)
     
     # Full Name tb
     tk.Label(frame_signup, text="Full Name").grid(row=3, column=0)
 
     name=tk.StringVar(signup)
-    name_tb=tk.Entry(frame_signup, textvariable=name)
+    name_tb=tk.Entry(frame_signup, textvariable=name, width=40)
     name_tb.grid(row=3, column=1)
 
     # Security Questions cb
@@ -187,13 +193,14 @@ def signUpWindow():
     sec_que=tk.StringVar(signup)
     sec_que.set(sec_ques[0])
     sec_que_cb=tk.OptionMenu(frame_signup, sec_que, *sec_ques)
-    sec_que_cb.grid(row=4, column=1, sticky="ew")
+    sec_que_cb['width']=38
+    sec_que_cb.grid(row=4, column=1)
 
     # Security Answer tb
     tk.Label(frame_signup, text="Answer").grid(row=5, column=0)
 
     sec_ans=tk.StringVar(signup)
-    sec_ans_tb= tk.Entry(frame_signup, textvariable=sec_ans)
+    sec_ans_tb= tk.Entry(frame_signup, textvariable=sec_ans, width=40)
     sec_ans_tb.grid(row=5, column=1)
 
     # SignUp button
@@ -208,9 +215,12 @@ def signUpWindow():
     reset_button=tk.Button(frame_signup, text="Reset", height=2, width=8, command=lambda : reset())
     reset_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(200,0))
 
+def mainWindow():
+    
+
 # Globally accessed variables across main.py
-sec_ques=("Where were you born?", 
-    "What was the first movie you watched at the cinemas?",
+sec_ques=("What was the first movie you watched at the cinemas?",
+    "Where were you born?",
     "What was your first pet's name?",
     "What is your favourite dish?",
     "What brand was your first car of?",
