@@ -1,51 +1,77 @@
 from tkinter import messagebox
 import tkinter as tk
+from tkinter import ttk
 import tkinter.font as font
 from sqlconnect import *
+
+#============Python Functions==========
+
+# If the characters in StringVars passed as arguments are in acceptables return True, else returns False
+def acceptable(*args, acceptables=(*[chr(i) for i in range(97,123)], "_",*[str(i) for i in range(10)], ".")):
+    for arg in args:
+        for char in arg:
+            if char.lower() not in acceptables:
+                return False
+    return True
+
+# Takes arguments like that in print and returns string like print() function
+def printer(*args):
+    returner=''
+    for posa, arg in enumerate(args):
+        if type(arg) in (list, tuple):
+            for posi, item in enumerate(arg):
+                returner+=(", " if posi!=0 else "\n\t")+item+("\n" if posi==len(arg)-1 else "")
+        else:
+            returner+=(" " if not returner[-1:]=="\n" and posa!=0 else "")+arg
+    return returner
+
+
 
 # ==============Tkinter================
 
 # Tkinter functions------------
 
-secques=["Where were you born?", 
-    "What was the first movie you watched at the cinemas?",
-    "What was your first pet's name?",
-    "What is your favourite dish?",
-    "What brand was your first car of?"]
-
 ''' ------------------Window generators---------------------'''
 def loginWindow():
     # Login check function
-    def login_func():
-        if checkUser(username.get(), password.get()):            
+    def loginFunc():
+        if checkUser(username.get().lower(), password.get()):            
             messagebox.showinfo(title="Successfull", message="Login Successfull")
             login.destroy()
             
         else:
             messagebox.showerror(title="Invalid Credentials", message="The username and paswword don't match")
+            reset(password)
     
     # Signup Button Function
-    def signup_btn():
+    def signupBtn():
         login.destroy()
         signUpWindow()
+
+    # Clears all StringVars
+    def reset(*args):
+        if args==():
+            username.set(""); password.set("") # Clears all inputs
+        for arg in args:
+            arg.set("")
+
 
     # ----------------Window------------------
     login=tk.Tk()
     login.title("Login-Hotel Management System")
-    login.geometry("400x180+560+300")
+    login.geometry("370x200+560+300")
     login.resizable(0,0)
 
 
-<<<<<<< HEAD
     # Login Frame
     frame_login=tk.Frame(login)
-    frame_login.place(x=40, y=40)
+    frame_login.place(x=40, y=20)
 
     # Heading
-
-    heading=tk.Label(frame_login, text="Login").grid(row=0, column=1)
-    heading['font']=header_font
-    heading.grid(row=0, column=1)
+    header_font=font.Font(login, size=28)
+    header=tk.Label(frame_login, text="Login")
+    header['font']=header_font
+    header.grid(row=0, column=1, columnspan=2, pady=(0,10), padx=(0, 40))
 
     # Username tb
     tk.Label(frame_login, text="Username").grid(row=1, column=0)
@@ -62,80 +88,139 @@ def loginWindow():
     password_tb= tk.Entry(frame_login, textvariable=password, show="•")
     password_tb.grid(row=2, column=1,columnspan=2)
 
-=======
-# Tkinter functions------------
-def login():
-    if checkUser(username.get(), password.get()):
-        print("Logged in successfully")
-        win.destroy()
-    else:
-        messagebox.showerror(title="Invalid Credentials", message="The username and password don't match")
->>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     # Login Button
-    login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=login_func)
-    login_button.grid(row=3, column=1,pady=10)
+    login_button=tk.Button(frame_login, text="Login", height=2, width=8, command=loginFunc)
+    login_button.grid(row=3, column=1,pady=10, padx=(0,10))
 
     # SignUp button
-    signup_button=tk.Button(frame_login, text="SignUp", height=2, width=8, command=signup_btn)
-    signup_button.grid(row=3, column=2,pady=10)
+    signup_button=tk.Button(frame_login, text="SignUp", height=2, width=8, command=signupBtn)
+    signup_button.grid(row=3, column=2,pady=10, padx=(0,10))
 
-<<<<<<< HEAD
 def signUpWindow():
-=======
-win=tk.Tk()
-win.title("Login-Hotel Management System")
-win.geometry("290x150")
-win.resizable(0,0)
-
->>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
-
+    header_font=font.Font(size=30)
     # -------------Constructor-----------------
     signup=tk.Tk()
-    signup.geometry("400x400+500+200")
+    signup.title("Sign Up-Hotel Management System")
+    signup.geometry("360x260+590+290")
     signup.resizable(0,0)
+    signup.grid_propagate(False) # Won't work without this
 
-<<<<<<< HEAD
+    # --------------Tkinter Functions-----------
+    
+    # Login Button Function
+    def loginBtn():
+        signup.destroy()
+        loginWindow()
+
+    # Sign Up Button Function
+    def signupFunc():
+        if (not acceptable(username.get())) or (username.get()+' ').isspace():
+            messagebox.showerror("Invalid-HMS", printer("Please enter a valid 'Username'. Valid usernames must only contain :", acceptables))
+            username_tb.focus(); return
+        elif len(password.get())<8 or password.get().isspace():
+            messagebox.showerror("Invalid-HMS", printer("Please enter a valid 'Password'. Passwords must", ['• Contain 8 characters or more', "\n\t• Not be empty"]))
+            print(username.get(), username.get().isspace())
+            username_tb.focus(); return
+        elif not name.get().lower().replace(" ", "").isalnum() or name.get().isspace():
+            messagebox.showerror("Invalid-HMS", "Please enter a valid 'Full Name'")
+            reset(name); return
+        elif not sec_ans.get().lower().replace(" ", "").isalnum() or (sec_ans.get() in ("'", ";")) or sec_ans.get().isspace():
+            messagebox.showerror("Invalid-HMS", "Please enter a valid 'Answer to security question'")
+            reset(sec_ans); return
+        
+        # Check if updated
+        if checkUser(username.get()):
+            messagebox.showinfo("User Exists-HMS", "Username has been taken. Please try a different username.")
+            username_tb.select_range(0,tk.END)
+            return
+        if addUser(name.get(), username.get().lower(), password.get(), sec_que.get(), sec_ans.get()):
+            is_sucess=messagebox.askquestion("Sign Up successful-HMS", "Sign Up successful.\nProceed to login?", icon='info')
+            if is_sucess=='yes': loginBtn()
+            reset()
+        else:
+            messagebox.showerror("Sign Up Failed-HMS", "Signup failed because of an error")
+    
+    # Clears all StringVars
+    def reset(*args):
+        if args==():
+            name.set(""); username.set(""); password.set(""); sec_ans.set("") # Clears all inputs
+        for arg in args:
+            arg.set("")
+
     # --------------Tkinter layout--------------
-=======
-# Username tb
-tk.Label(frame_login, text="Username ").grid(row=0, column=0)
->>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
 
     # Main Frame
     frame_signup=tk.Frame(signup)
-    frame_signup.place(padx=20, pady=50, ipadx=40, ipadyy=40)
+    frame_signup.place(x=18, y=10)
     
-    # Header
-    header=tk.Label(frame_signup, text="Sign Up").grid(row=0, column=1)
+    # Heading
+    header_font=font.Font(frame_signup, size=28)
+    header=tk.Label(frame_signup, text="Sign Up")
     header['font']=header_font
-    header.grid(row=0, column=1)
+    header.grid(row=0, column=0, columnspan=3, pady=(0,10))
 
-<<<<<<< HEAD
-    # Name
-    tk.Label(frame_signup, text="Full Name").grid(row=1, column=0)
-=======
-# Password tb
-tk.Label(frame_login, text="Password ").grid(row=1, column=0)
->>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
+    # Username tb
+    tk.Label(frame_signup, text="Username").grid(row=1, column=0)
 
-    nname=tk.StringVar(signUpWindow)
-    nname_tb=tk.Entry(frame_signup, textvariable=nname)
-    nname_tb.grid(row=1, column=1)
+    username=tk.StringVar(signup)
+    username_tb=tk.Entry(frame_signup, textvariable=username)
+    username_tb.grid(row=1, column=1)
+
+    # Password tb
+    tk.Label(frame_signup, text="Password").grid(row=2, column=0)
+
+    password=tk.StringVar(signup)
+    password_tb= tk.Entry(frame_signup, textvariable=password, show="•")
+    password_tb.grid(row=2, column=1)
+    
+    # Full Name tb
+    tk.Label(frame_signup, text="Full Name").grid(row=3, column=0)
+
+    name=tk.StringVar(signup)
+    name_tb=tk.Entry(frame_signup, textvariable=name)
+    name_tb.grid(row=3, column=1)
+
+    # Security Questions cb
+    tk.Label(frame_signup, text="Security Question").grid(row=4, column=0)
+
+    sec_que=tk.StringVar(signup)
+    sec_que.set(sec_ques[0])
+    sec_que_cb=tk.OptionMenu(frame_signup, sec_que, *sec_ques)
+    sec_que_cb.grid(row=4, column=1, sticky="ew")
+
+    # Security Answer tb
+    tk.Label(frame_signup, text="Answer").grid(row=5, column=0)
+
+    sec_ans=tk.StringVar(signup)
+    sec_ans_tb= tk.Entry(frame_signup, textvariable=sec_ans)
+    sec_ans_tb.grid(row=5, column=1)
+
+    # SignUp button
+    signup_button=tk.Button(frame_signup, text="SignUp", height=2, width=8, command=signupFunc)
+    signup_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(0,140))
+
+    # Login Button
+    login_button=tk.Button(frame_signup, text="Login", height=2, width=8, command=loginBtn)
+    login_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(30,0))
+    
+    # Reset Button
+    reset_button=tk.Button(frame_signup, text="Reset", height=2, width=8, command=lambda : reset())
+    reset_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(200,0))
 
 # Globally accessed variables across main.py
+sec_ques=("Where were you born?", 
+    "What was the first movie you watched at the cinemas?",
+    "What was your first pet's name?",
+    "What is your favourite dish?",
+    "What brand was your first car of?",
+    "what is your favourite movie?",
+    "What is your favourite colour")
 
-<<<<<<< HEAD
-# header_font=font.Font(weight="bold", family="Arial", size=18)
-header_font = font.Font(size=30)
-=======
-# Login Button
-login_button=tk.Button(frame_login, text="Login", height=1, width=8, command=login)
-login_button.grid(row=2, column= 1, pady=10)
->>>>>>> bf4390290bb0340ab0652dfea1a9cccc6e1a5ad8
+acceptables=(*[chr(i) for i in range(97,123)], "_",*[str(i) for i in range(10)], ".")
 
-root= tk.Tk()
+# Main window constructor
+root = tk.Tk()
 root.withdraw()
-loginWindow()
+signUpWindow()
 root.mainloop()
-

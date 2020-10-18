@@ -1,7 +1,9 @@
 CREATE TABLE login
 (name varchar(30),
 username varchar(15) primary key,
-password varchar(10));
+password varchar(10) not null,
+sec_que varchar(100) not null,
+sec_ans varchar(30) not null);
 
 CREATE TABLE reservations
 (r_id char(6) primary key,
