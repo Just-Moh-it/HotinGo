@@ -108,7 +108,7 @@ def signUpWindow():
     # -------------Constructor-----------------
     signup=tk.Tk()
     signup.title("Sign Up-Hotel Management System")
-    signup.geometry("535x260+450+290")
+    signup.geometry("535x230+450+275")
     signup.resizable(0,0)
     signup.grid_propagate(False) # Won't work without this
 
@@ -128,9 +128,6 @@ def signUpWindow():
             messagebox.showerror("Invalid-HMS", printer("Please enter a valid 'Password'. Passwords must", ['• Contain 8 characters or more', "\n\t• Not be empty"]))
             print(username.get(), username.get().isspace())
             username_tb.focus(); return
-        elif not name.get().lower().replace(" ", "").isalnum() or name.get().isspace():
-            messagebox.showerror("Invalid-HMS", "Please enter a valid 'Full Name'")
-            reset(name); return
         elif not sec_ans.get().lower().replace(" ", "").isalnum() or (sec_ans.get() in ("'", ";")) or sec_ans.get().isspace():
             messagebox.showerror("Invalid-HMS", "Please enter a valid 'Answer to security question'")
             reset(sec_ans); return
@@ -140,7 +137,7 @@ def signUpWindow():
             messagebox.showinfo("User Exists-HMS", "Username has been taken. Please try a different username.")
             username_tb.select_range(0,tk.END)
             return
-        if addUser(name.get(), username.get().lower(), password.get(), sec_que.get(), sec_ans.get()):
+        if addUser(username.get().lower(), password.get(), sec_que.get(), sec_ans.get()):
             is_sucess=messagebox.askquestion("Sign Up successful-HMS", "Sign Up successful.\nProceed to login?", icon='info')
             if is_sucess=='yes': loginBtn()
             reset()
@@ -150,7 +147,7 @@ def signUpWindow():
     # Clears all StringVars
     def reset(*args):
         if args==():
-            name.set(""); username.set(""); password.set(""); sec_ans.set("") # Clears all inputs
+            username.set(""); password.set(""); sec_ans.set("") # Clears all inputs
         for arg in args:
             arg.set("")
 
@@ -182,44 +179,37 @@ def signUpWindow():
     password=tk.StringVar(signup)
     password_tb= tk.Entry(frame_signup, textvariable=password, show="•", width=40)
     password_tb.grid(row=2, column=1)
-    
-    # Full Name tb
-    tk.Label(frame_signup, text="Full Name").grid(row=3, column=0)
-
-    name=tk.StringVar(signup)
-    name_tb=tk.Entry(frame_signup, textvariable=name, width=40)
-    name_tb.grid(row=3, column=1)
 
     # Security Questions cb
-    tk.Label(frame_signup, text="Security Question").grid(row=4, column=0)
+    tk.Label(frame_signup, text="Security Question").grid(row=3, column=0)
 
     sec_que=tk.StringVar(signup)
     sec_que.set(sec_ques[0])
     sec_que_cb=tk.OptionMenu(frame_signup, sec_que, *sec_ques)
     sec_que_cb['width']=38
-    sec_que_cb.grid(row=4, column=1)
+    sec_que_cb.grid(row=3, column=1)
 
     # Security Answer tb
-    tk.Label(frame_signup, text="Answer").grid(row=5, column=0)
+    tk.Label(frame_signup, text="Answer").grid(row=4, column=0)
 
     sec_ans=tk.StringVar(signup)
     sec_ans_tb= tk.Entry(frame_signup, textvariable=sec_ans, width=40)
-    sec_ans_tb.grid(row=5, column=1)
+    sec_ans_tb.grid(row=4, column=1)
 
     # SignUp button
     signup_button=tk.Button(frame_signup, text="SignUp", height=2, width=8, command=signupFunc)
-    signup_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(0,140))
+    signup_button.grid(row=5, column=0, columnspan=3, pady=10, padx=(0,140))
 
     # Login Button
     login_button=tk.Button(frame_signup, text="Login", height=2, width=8, command=loginBtn)
-    login_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(30,0))
+    login_button.grid(row=5, column=0, columnspan=3, pady=10, padx=(30,0))
     
     # Reset Button
     reset_button=tk.Button(frame_signup, text="Reset", height=2, width=8, command=lambda : reset())
-    reset_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(200,0))
+    reset_button.grid(row=5, column=0, columnspan=3, pady=10, padx=(200,0))
 
 def mainWindow():
-    # -----------Tkinter functions------------
+    # -----------functions------------
 
     # -----------Constructor------------------
     main=tk.Tk()
@@ -228,6 +218,57 @@ def mainWindow():
     main.grid_propagate(False)
     main.resizable(0,0)
 
+    # --------------Tkinter Function--------------
+    def home():
+        pass     
+
+    # ---Navigation Frame---
+    frame_navigation=tk.Frame(main, background='white')
+    frame_navigation.place(x=0, y=0, width=170, height=490)
+
+    #---Main Frame---
+    frame_main=tk.Frame(main, background='white')
+    frame_main.place(x=170, y=0, width=670, height=490)
+
+    # Navigation Buttons and Title
+    header_font=font.Font(frame_navigation, size=20, weight='bold', family='Arial')
+    header_main=tk.Label(frame_navigation, text="Hotel\nManagement\nSystem")
+    header_main.pack(fill=tk.X, pady=(30,0))
+    header_main['font']=header_font
+
+    panel_side=tk.Frame(frame_navigation)
+
+    tk.Button(frame_navigation, text="Dashboard", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X, pady=(25,0))
+    tk.Button(frame_navigation, text="Reserve", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
+    tk.Button(frame_navigation, text="Rooms", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
+    tk.Button(frame_navigation, text="Payement", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
+    tk.Button(frame_navigation, text="Account", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
+
+    # --------------Work Frames and controls------------------
+    
+    # ---Dashboard---
+    frame_dashboard=tk.Frame(frame_main, background='red')
+    frame_dashboard.place(x=0, y=0, width=670, height=490)
+
+
+    # ---Reserve---
+    frame_reserve=tk.Frame(frame_main)
+    frame_reserve.place(x=0, y=0, width=670, height=490)
+
+
+    # ---Rooms---
+    frame_rooms=tk.Frame(frame_main)
+    frame_rooms.place(x=0, y=0, width=670, height=490)
+
+
+    # ---Payement---
+    frame_payement=tk.Frame(frame_main)
+    frame_payement.place(x=0, y=0, width=670, height=490)
+
+
+    # ---Account---
+    frame_account=tk.Frame(frame_main)
+    frame_account.place(x=0, y=0, width=670, height=490)
 
 
 # Globally accessed variables across main.py
@@ -244,5 +285,5 @@ acceptables=(*[chr(i) for i in range(97,123)], "_",*[str(i) for i in range(10)],
 # Main window constructor
 root = tk.Tk()
 root.withdraw()
-loginWindow()
+mainWindow()
 root.mainloop()
