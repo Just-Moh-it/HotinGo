@@ -21,10 +21,10 @@ def checkUser(username, password=None):
     cmd=None
     return cursor.fetchone()[0]>=1
 
-def addUser(name, username, password, sec_que, sec_ans):
-    cmd=f"Insert into login (name, username, password, sec_que, sec_ans) values ('{name}', '{username}', '{password}', '{sec_que}', '{sec_ans}');"
+def addUser(username, password, sec_que, sec_ans):
+    cmd=f"Insert into login (username, password, sec_que, sec_ans) values ('{username}', '{password}', '{sec_que}', '{sec_ans}');"
     cursor.execute(cmd)
-    cmd=f"select count(name) from login where name='{name}' and username='{username}' and password='{password}' and sec_que='{sec_que}' and sec_ans='{sec_ans}'"
+    cmd=f"select count(name) from login where username='{username}' and password='{password}' and sec_que='{sec_que}' and sec_ans='{sec_ans}'"
     cursor.execute(cmd)
     cmd=None
     return cursor.fetchone()[0]>=1
