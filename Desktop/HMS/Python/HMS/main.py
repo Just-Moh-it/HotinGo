@@ -33,14 +33,17 @@ def printer(*args):
 
 ''' ------------------Window generators---------------------'''
 def loginWindow():
+
     # Login check function
     def loginFunc():
+        global user
         if checkUser(username.get().lower(), password.get()):            
             messagebox.showinfo(title="Successfull", message="Login Successfull")
             login.destroy()
-            
+            user=username.get()
+            mainWindow()
         else:
-            messagebox.showerror(title="Invalid Credentials", message="The username and paswword don't match")
+            messagebox.showerror(title="Invalid Credentials", message="The username and password don't match")
             reset(password)
     
     # Signup Button Function
@@ -97,7 +100,7 @@ def loginWindow():
     tk.Label(frame_login, text='or').grid(row=3, column=0, columnspan=2, pady=10, padx=(75,0))
 
     # SignUp button
-    signup_button=tk.Button(frame_login, text="SignUp", height=2, width=8, command=signupBtn)
+    signup_button=tk.Button(frame_login, text="SignUp ☞", height=2, width=8, command=signupBtn)
     signup_button.grid(row=3, column=0, columnspan=2, pady=10, padx=(175,0))
 
 def signUpWindow():
@@ -216,7 +219,16 @@ def signUpWindow():
     reset_button.grid(row=6, column=0, columnspan=3, pady=10, padx=(200,0))
 
 def mainWindow():
-    
+    # -----------Tkinter functions------------
+
+    # -----------Constructor------------------
+    main=tk.Tk()
+    main.title("Main-Hotel Management System")
+    main.geometry("840x490+70+70")
+    main.grid_propagate(False)
+    main.resizable(0,0)
+
+
 
 # Globally accessed variables across main.py
 sec_ques=("What was the first movie you watched at the cinemas?",
@@ -232,5 +244,5 @@ acceptables=(*[chr(i) for i in range(97,123)], "_",*[str(i) for i in range(10)],
 # Main window constructor
 root = tk.Tk()
 root.withdraw()
-signUpWindow()
+loginWindow()
 root.mainloop()
