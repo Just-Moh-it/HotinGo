@@ -7,13 +7,8 @@ connection=mysql.connector.connect(host="remotemysql.com",
                             user="OupAGhC9dM", 
                             password="KYVO7iezPw", 
                             database = "OupAGhC9dM", 
-                            port="3306", 
-                            charset="utf8", autocommit=True)
+                            port="3306", autocommit=True)
 
-""" connection=mysql.connector.connect(user="root", 
-                            password="mohit123", 
-                            database = "hms",  
-                            charset="utf8", autocommit=True) """
 cursor=connection.cursor()
 
 # SQL functions
