@@ -64,14 +64,15 @@ def loginWindow():
     login.title("Login-Hotel Management System")
     login.geometry("370x200+560+300")
     login.resizable(0,0)
+    login['background']='white'
 
 
     # Login Frame
-    frame_login=tk.Frame(login)
+    frame_login=tk.Frame(login, background='white')
     frame_login.place(x=40, y=20)
 
     # Heading
-    header_font=font.Font(login, size=28)
+    header_font=font.Font(login, size=20, family='arial', weight='bold')
     header=tk.Label(frame_login, text="Login")
     header['font']=header_font
     header.grid(row=0, column=0, columnspan=2, padx=(60,0))
@@ -104,12 +105,13 @@ def loginWindow():
     signup_button.grid(row=3, column=0, columnspan=2, pady=10, padx=(175,0))
 
 def signUpWindow():
-    header_font=font.Font(size=30)
+    header_font=font.Font(size=20, weight='bold', family='arial')
     # -------------Constructor-----------------
     signup=tk.Tk()
     signup.title("Sign Up-Hotel Management System")
     signup.geometry("535x230+450+275")
     signup.resizable(0,0)
+    signup['background']='white'
     signup.grid_propagate(False) # Won't work without this
 
     # --------------Tkinter Functions-----------
@@ -154,14 +156,14 @@ def signUpWindow():
     # --------------Tkinter layout--------------
 
     # Main Frame
-    frame_signup=tk.Frame(signup)
+    frame_signup=tk.Frame(signup, background='white')
     frame_signup.place(x=17, y=10)
     frame_signup.columnconfigure(0, weight=6)
     frame_signup.columnconfigure(1, weight=25)
 
     
     # Heading
-    header_font=font.Font(frame_signup, size=28)
+    header_font=font.Font(frame_signup, size=20, weight='bold', family='arial')
     header=tk.Label(frame_signup, text="Sign Up")
     header['font']=header_font
     header.grid(row=0, column=0, columnspan=3, pady=(0,10))
@@ -220,7 +222,15 @@ def mainWindow():
 
     # --------------Tkinter Function--------------
     def home():
-        pass     
+        panel_side.place(y=button_dashboard.winfo_y()+2)
+    def reserve():
+        panel_side.place(y=button_reserve.winfo_y()+2) 
+    def rooms():
+        panel_side.place(y=button_rooms.winfo_y()+2) 
+    def payment():
+        panel_side.place(y=button_payment.winfo_y()+2) 
+    def account():
+        panel_side.place(y=button_account.winfo_y()+2) 
 
     # ---Navigation Frame---
     frame_navigation=tk.Frame(main, background='white')
@@ -236,22 +246,43 @@ def mainWindow():
     header_main.pack(fill=tk.X, pady=(30,0))
     header_main['font']=header_font
 
-    panel_side=tk.Frame(frame_navigation)
+    # Side Panel
+    panel_side=tk.Frame(frame_navigation, background='#c32148', height=32, width=5)
+    panel_side.place(x=0,y=0)
 
-    tk.Button(frame_navigation, text="Dashboard", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X, pady=(25,0))
-    tk.Button(frame_navigation, text="Reserve", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
-    tk.Button(frame_navigation, text="Rooms", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
-    tk.Button(frame_navigation, text="Payement", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
-    tk.Button(frame_navigation, text="Account", command=home, height=2, relief=tk.FLAT, background='white').pack(fill=tk.X)
+    # Buttons
+    button_dashboard=tk.Button(frame_navigation, text="Dashboard", command=home, height=2, relief=tk.FLAT, background='white')
+    button_dashboard.pack(fill=tk.X, pady=(25,0), padx=(4,0))
+
+    button_reserve=tk.Button(frame_navigation, text="Reserve", command=reserve, height=2, relief=tk.FLAT, background='white')
+    button_reserve.pack(fill=tk.X, padx=(4,0))
+
+    button_rooms=tk.Button(frame_navigation, text="Rooms", command=rooms, height=2, relief=tk.FLAT, background='white')
+    button_rooms.pack(fill=tk.X, padx=(4,0))
+
+    button_payment=tk.Button(frame_navigation, text="Payment", command=payment, height=2, relief=tk.FLAT, background='white')
+    button_payment.pack(fill=tk.X, padx=(4,0))
+
+    button_account=tk.Button(frame_navigation, text="Account", command=account, height=2, relief=tk.FLAT, background='white')
+    button_account.pack(fill=tk.X, padx=(4,0))
+
+    # Placing sidebar on dashboard
+    panel_side.place(y=134)
 
     # --------------Work Frames and controls------------------
     
     # ---Dashboard---
-    frame_dashboard=tk.Frame(frame_main, background='red')
+    frame_dashboard=tk.Frame(frame_main, background='white')
     frame_dashboard.place(x=0, y=0, width=670, height=490)
 
+    rooms_available=tk.Frame(frame_dashboard, background='#62ACEC')
+    rooms_available.place(x=20, y=10)
+    tk.Label(rooms_available, text='Vacant Rooms').place()
+    label_av_rooms=tk.Label(rooms_available, text=availableRooms())
+    label_av_rooms.place(x=2, y=7)
 
-    # ---Reserve---
+
+    """ # ---Reserve---
     frame_reserve=tk.Frame(frame_main)
     frame_reserve.place(x=0, y=0, width=670, height=490)
 
@@ -261,14 +292,14 @@ def mainWindow():
     frame_rooms.place(x=0, y=0, width=670, height=490)
 
 
-    # ---Payement---
-    frame_payement=tk.Frame(frame_main)
-    frame_payement.place(x=0, y=0, width=670, height=490)
+    # ---Payment---
+    frame_payment=tk.Frame(frame_main)
+    frame_payment.place(x=0, y=0, width=670, height=490)
 
 
     # ---Account---
     frame_account=tk.Frame(frame_main)
-    frame_account.place(x=0, y=0, width=670, height=490)
+    frame_account.place(x=0, y=0, width=670, height=490) """
 
 
 # Globally accessed variables across main.py

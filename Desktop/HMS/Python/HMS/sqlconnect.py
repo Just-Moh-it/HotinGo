@@ -7,8 +7,7 @@ connection=mysql.connector.connect(host="remotemysql.com",
                             user="OupAGhC9dM", 
                             password="KYVO7iezPw", 
                             database = "OupAGhC9dM", 
-                            port="3306", 
-                            charset="utf8", autocommit=True) 
+                            port="3306", autocommit=True)
 
 cursor=connection.cursor()
 
@@ -28,3 +27,9 @@ def addUser(username, password, sec_que, sec_ans):
     cursor.execute(cmd)
     cmd=None
     return cursor.fetchone()[0]>=1
+
+def availableRooms():
+    cursor.execute("select count(room_id) from rooms where currently_booked='0';")
+    return cursor.fetchone()[0]
+
+print(availableRooms())
