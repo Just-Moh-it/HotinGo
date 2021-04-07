@@ -4,18 +4,16 @@ import mysql.connector
 
 # SQL Connection
 connection=mysql.connector.connect(host="remotemysql.com", 
-                            user="OupAGhC9dM", 
-                            password="KYVO7iezPw", 
-                            database = "OupAGhC9dM", 
+                            user="vBSRv3edd7", 
+                            password="Oz11kf3svD", 
+                            database = "vBSRv3edd7", 
                             port="3306", autocommit=True)
 
-<<<<<<< HEAD
 """connection=mysql.connector.connect(user="root", 
                             password="mohit123", 
                             database = "hms", 
                             autocommit=True)"""
-=======
->>>>>>> af3e5735d2976cab186f23c2557a20ed730336d6
+
 cursor=connection.cursor()
 
 # SQL functions
