@@ -3,11 +3,15 @@ import mysql.connector
 # ===================SQL Connectivity=================
 
 # SQL Connection
-connection=mysql.connector.connect(host="remotemysql.com", 
-                            user="vBSRv3edd7", 
-                            password="Oz11kf3svD", 
-                            database = "vBSRv3edd7", 
-                            port="3306", autocommit=True)
+try: 
+    connection=mysql.connector.connect(host="remotemysql.com", 
+                                user="vBSRv3edd7", 
+                                password="WybOhrwfxF", 
+                                database = "vBSRv3edd7", 
+                                port="3306", autocommit=True)
+except mysql.connector.errors.ProgrammingError:
+    print("!!!! Database Authentication Failed, update credentails in sqlconnect.py\n     or see references/db.txt for pass")
+    quit()
 
 """connection=mysql.connector.connect(user="root", 
                             password="mohit123", 

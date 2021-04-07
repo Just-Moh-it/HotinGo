@@ -3,7 +3,7 @@
 -----------DataBase Credentials-----------
 Username: vBSRv3edd7
 Database name: vBSRv3edd7
-Password: Oz11kf3svD
+Password: WybOhrwfxF
 Server: remotemysql.com
 Port: 3306
 
