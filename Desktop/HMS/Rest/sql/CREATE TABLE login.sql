@@ -28,4 +28,4 @@ CREATE TABLE rooms
 room_no Int
 unique,price int,
 room_type char(2),
-rooms_status boolean);
+currently_booked boolean);
