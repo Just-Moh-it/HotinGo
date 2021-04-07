@@ -21,10 +21,8 @@ cursor=connection.cursor()
 def checkUser(username, password=None):
     cmd="Select count(username) from login where username='"+username.lower()+(("' and BINARY password='"+password) if password is not None else "")+"';"
     cursor.execute(cmd)
-    print(cmd)
     cmd=None
     a=cursor.fetchone()[0]>=1
-    print(a)
     return a 
 
 def addUser(username, password, sec_que, sec_ans):

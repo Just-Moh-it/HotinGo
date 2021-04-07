@@ -130,7 +130,6 @@ def signUpWindow():
             if is_sucess==True: loginBtn()
             reset()
         else:
-            print(username.get(), password.get(), sec_ans.get(), sec_que.get())
             messagebox.showerror("Sign Up Failed-HMS", "Signup failed because of an error")
     
     # Clears all StringVars
@@ -205,7 +204,6 @@ def forgotPwdWindow():
     
     def changePwd():
         if not checkUser(username.get()):
-            print('username',username.get())
             messagebox.showerror("Invalid username", "Please enter a valid username"); return
         elif 30<len(password.get())<8 or password.get().isspace():
             messagebox.showerror("Invalid-HMS", printer("Please enter a valid 'Password'. Passwords must", ['• Contain 8 characters or more', "\n\t• Not be empty"]))
