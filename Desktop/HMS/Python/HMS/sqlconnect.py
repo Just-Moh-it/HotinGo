@@ -10,10 +10,10 @@ connection=mysql.connector.connect(host="remotemysql.com",
                             port="3306", 
                             charset="utf8", autocommit=True)
 
-""" connection=mysql.connector.connect(user="root", 
+"""connection=mysql.connector.connect(user="root", 
                             password="mohit123", 
-                            database = "hms",  
-                            charset="utf8", autocommit=True) """
+                            database = "hms", 
+                            autocommit=True)"""
 cursor=connection.cursor()
 
 # SQL functions
@@ -23,18 +23,48 @@ def checkUser(username, password=None):
     cursor.execute(cmd)
     print(cmd)
     cmd=None
-    return cursor.fetchone()[0]>=1
+    a=cursor.fetchone()[0]>=1
+    print(a)
+    return a 
 
 def addUser(username, password, sec_que, sec_ans):
     cmd=f"Insert into login (username, password, sec_que, sec_ans) values ('{username}', '{password}', '{sec_que}', '{sec_ans}');"
     cursor.execute(cmd)
-    cmd=f"select count(name) from login where username='{username}' and password='{password}' and sec_que='{sec_que}' and sec_ans='{sec_ans}'"
+    cmd=f"select count(username) from login where username='{username}' and password='{password}' and sec_que='{sec_que}' and sec_ans='{sec_ans}'"
     cursor.execute(cmd)
     cmd=None
     return cursor.fetchone()[0]>=1
 
-def availableRooms():
-    cursor.execute("select count(room_id) from rooms where currently_booked='0';")
+def updatePassword(username, sec_ans, sec_que, password):
+    cmd=f"update login set password='{password}' where username='{username}' and sec_ans='{sec_ans}' and sec_que='{sec_que}' limit 1;"
+    cursor.execute(cmd)
+    cmd=f"select count(username) from login where username='{username}' and password='{password}' and sec_ans='{sec_ans}' and sec_que='{sec_que}';"
+    cursor.execute(cmd)
+    return cursor.fetchone()[0]>=1
+
+def updateUsername(oldusername, password, newusername):
+    cmd=f"update login set username='{newusername}' where username='{oldusername}' and password='{password}' limit 1;"
+    cursor.execute(cmd);
+    cmd=f"select count(username) from login where username='{newusername}' and password='{password}''"
+    cursor.execute(cmd)
+    return cursor.fetchone()[0]>=1
+
+def availableRooms(status='v'):
+    # Returns number of rooms either booked or unbooked
+    # Status can be 'b' for booked or 'v' for vacant ot total by default for total rooms
+    if status.casefold()=='b':
+        cursor.execute("select count(room_id) from rooms where currently_booked='1';")
+    elif status.casefold()=='t':
+        cursor.execute("select count(room_id) from rooms")
+    else:
+        cursor.execute("select count(room_id) from rooms where currently_booked='0';")
     return cursor.fetchone()[0]
 
-print(availableRooms())
+def totalMoney():
+    # sum of all bookings 
+    # to be done by @anirudh agarwal cursor.execute("select from reservations, rooms where reservations.room_id=rooms.room_id")
+    return str(cursor.fetchone()[0])
+
+def totalValue():
+    cursor.execute("select sum(price) from rooms")
+    return str(cursor.fetchone()[0])
