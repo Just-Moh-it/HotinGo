@@ -14,7 +14,7 @@ To run the project in your own computer, first
 
 1. Clone the Repo:
 ```
-git clone https://github.com/SnazzyCoder/NMS-Project-HMS.git && cd NMS-Project-HMS
+git clone https://github.com/SnazzyCoder/HMS-NMS.git && cd HMS-NMS
 ```
 
 2. Then, install all the requirements using pip (python & pip required):
