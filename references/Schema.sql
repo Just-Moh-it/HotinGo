@@ -20,8 +20,7 @@ name varchar(30),
 address varchar(50),
 email_id varchar(50),
 phone bigint(20),
-city varchar(20),
-);
+city varchar(20));
 
 CREATE TABLE rooms
 (room_id char(4) Primary key,
