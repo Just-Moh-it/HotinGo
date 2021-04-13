@@ -76,7 +76,7 @@ def loginWindow():
 
     # Forgot Password Button
     tk.Button(frame_login, text="Reset Pwd", height=2, width=9, command=forgotPwd).grid(row=3, column=0, columnspan=2, pady=10, padx=(150, 0))
- 
+
     # Or label
     tk.Label(frame_login, text='or').grid(row=3, column=0, columnspan=2, pady=10, padx=(110,0))
 
@@ -297,7 +297,7 @@ def mainWindow():
             'val-label': label_bo_rooms,
             'bg': '#FF9100'
         },
-         {
+        {
             'name': 'Total\nRooms',
             'val-label': label_to_rooms,
             'bg': '#FFC200'
@@ -323,7 +323,7 @@ def mainWindow():
         '''
             Adding widgets from it's dictionary
         '''
-         # Available rooms box
+        # Available rooms box
         parent_frame=tk.Frame(frame_flow_right, background=box.get('bg'), height=120, width=120)
         parent_frame.grid(row=0, column=widget_no, padx=5)
 
@@ -334,7 +334,7 @@ def mainWindow():
         labll=tk.Label(parent_frame, text=box.get('val-label'), background=box.get('bg'), foreground='white')
         labll.pack(fill=tk.BOTH)
         labll['font']=h1_font
-   
+
     label_to_money = "5"
 
     """ # ---Reserve---
