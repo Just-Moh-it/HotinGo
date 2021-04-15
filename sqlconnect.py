@@ -1,4 +1,5 @@
 import mysql.connector
+import models
 
 # ===================SQL Connectivity=================
 
@@ -13,21 +14,18 @@ except mysql.connector.errors.ProgrammingError:
     print("!!!! Database Authentication Failed, update credentails in sqlconnect.py\n     or see references/db.txt for pass")
     quit()
 
-"""connection=mysql.connector.connect(user="root", 
-                            password="mohit123", 
-                            database = "hms", 
-                            autocommit=True)"""
-
-cursor=connection.cursor()
+cursor = connection.cursor()
 
 # SQL functions
 
 def checkUser(username, password=None):
-    cmd="Select count(username) from login where username='"+username.lower()+(("' and BINARY password='"+password) if password is not None else "")+"';"
-    cursor.execute(cmd)
-    cmd=None
-    a=cursor.fetchone()[0]>=1
-    return a 
+
+    if not username or not password: return False
+    password = models.hash(password)
+
+    res = cursor.execute("select count(username) from login where username=%s and binary password=%s;", (username, password))
+
+    print("res: " + res)
 
 def addUser(username, password, sec_que, sec_ans):
     cmd=f"Insert into login (username, password, sec_que, sec_ans) values ('{username}', '{password}', '{sec_que}', '{sec_ans}');"
