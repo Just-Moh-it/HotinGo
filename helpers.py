@@ -23,21 +23,56 @@ cursor=connection.cursor()
 def checkUser(username, password=None):
     cmd="Select count(username) from login where username='"+username.lower()+(("' and BINARY password='"+password) if password is not None else "")+"';"
     cursor.execute(cmd)
-    print(cmd)
     cmd=None
+    a=cursor.fetchone()[0]>=1
+    return a 
+
+
+
+def updatePassword(username, sec_ans, sec_que, password):
+    cmd=f"update login set password='{password}' where username='{username}' and sec_ans='{sec_ans}' and sec_que='{sec_que}' limit 1;"
+    cursor.execute(cmd)
+    cmd=f"select count(username) from login where username='{username}' and password='{password}' and sec_ans='{sec_ans}' and sec_que='{sec_que}';"
+    cursor.execute(cmd)
     return cursor.fetchone()[0]>=1
 
-def addUser(username, password, sec_que, sec_ans):
-    cmd=f"Insert into login (username, password, sec_que, sec_ans) values ('{username}', '{password}', '{sec_que}', '{sec_ans}');"
+def updateUsername(oldusername, password, newusername):
+    cmd=f"update login set username='{newusername}' where username='{oldusername}' and password='{password}' limit 1;"
+    cursor.execute(cmd);
+    cmd=f"select count(username) from login where username='{newusername}' and password='{password}''"
     cursor.execute(cmd)
-    cmd=f"select count(name) from login where username='{username}' and password='{password}' and sec_que='{sec_que}' and sec_ans='{sec_ans}'"
-    cursor.execute(cmd)
-    cmd=None
     return cursor.fetchone()[0]>=1
 
-def availableRooms():
-    cursor.execute("select count(room_id) from rooms where currently_booked='0';")
+def availableRooms(status='v'):
+    # Returns number of rooms either booked or unbooked
+    # Status can be 'b' for booked or 'v' for vacant ot total by default for total rooms
+    if status.casefold()=='b':
+        cursor.execute("select count(room_id) from rooms where currently_booked='1';")
+    elif status.casefold()=='t':
+        cursor.execute("select count(room_id) from rooms")
+    else:
+        cursor.execute("select count(room_id) from rooms where currently_booked='0';")
     return cursor.fetchone()[0]
+
+def totalamount(roomno):
+    cmd = "select datediff(check_in , check_out) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_no = roomno;"
+    cursor.execute(cmd)
+    return str(cursor.fetchone()[0])
+
+def addguest(name,address,city,email_id,phone,Dlicense):
+    cmd = f'insert into guests(name,address,email_id,city,phone,Driving_License) values({name},{address},{email_id},{city},{phone},{Dlicense});'
+    cursor.execute(cmd)
+    
+
+def find_g_id(name):
+    cmd = f"select g_id from guests where name = {name}"
+    cursor.execute(cmd)
+    return cursor.fetchone()[0]
+
+def checkin(g_id):
+    cmd = f"select * from reservations where g_id = {g_id}"
+    cursor.execute(cmd)
+    return cursor.fetchall()
 
 
 #============Python Functions==========
