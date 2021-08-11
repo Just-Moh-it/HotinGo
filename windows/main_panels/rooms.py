@@ -1,8 +1,7 @@
 import tkinter as tk
-from config import fonts
 
-class Rooms:
-    def __init__(self, root) -> None:
-        # ---Rooms---
-        frame_rooms=tk.Frame(root)
-        frame_rooms.place(x=0, y=0, width=670, height=400)
+class Rooms(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.pack(expand=True, fill=tk.BOTH)

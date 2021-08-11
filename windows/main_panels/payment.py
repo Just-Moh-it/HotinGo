@@ -1,8 +1,7 @@
 import tkinter as tk
-from config import fonts
 
-class Payment:
-    def __init__(self, root) -> None:
-        # ---Payment---
-        frame_payment=tk.Frame(root)
-        frame_payment.place(x=0, y=0, width=670, height=400)
+class Payment(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        self.pack(expand=True, fill=tk.BOTH)
