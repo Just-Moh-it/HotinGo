@@ -13,6 +13,7 @@ from .payment import Payment
 from .reserve import Reserve
 from .rooms import Rooms
 from .account import Account
+import windows
 
 class MainWindow2(tk.Tk):
 
@@ -24,6 +25,9 @@ class MainWindow2(tk.Tk):
         self.main_window_config = config.get('windows').get('main_window')
         self.geometry("".join((str(self.main_window_config.get('win_width')), "x", str(self.main_window_config.get('win_height')), "+300+200")))
         self.grid_propagate(False)
+
+        # ---Users---
+        self.user = kwargs.get('user') or 'admin'
 
         # These frames are to be put in the main window
         self.frames_to_show = [
@@ -38,32 +42,24 @@ class MainWindow2(tk.Tk):
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
 
-        # ------------ Header - Top ------------
-        self.header_container = tk.Frame(container, bg="grey")
-        self.header_container.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
-
-        title = tk.Label(self.header_container, text="Hotel Management System", font=("Helvetica", 20), bg="grey")
-        title.grid(row = 0, column=0, sticky="nsew")
 
         # --------------Work Frames and controls------------------
-        # ---Top Frame---
-        frame_header=tk.Frame(self, width=630, height=40, pady=10)
-        frame_header.place(x=0, y=0)
+        # ---Header Container---
+        self.header_container=tk.Frame(self, width=630, height=40, pady=10)
+        self.header_container.grid(row=0, column=0)
+        self.header_container.grid_columnconfigure(0, weight=1)
 
         # Frame_name Header
-        info_header=tk.Label(frame_header, text="Dashboard", font=fonts.get('h1'))
-        info_header.place(x=2)
+        info_header=tk.Label(self.header_container, text="Hotel Management System", font=fonts.get('h1'), justify=tk.LEFT)
+        info_header.grid(row=0, column=0, sticky=tk.W, columnspan=3)
 
-        # ---Users---
-        self.user = kwargs.get('user') or 'admin'
-
-        header_main=tk.Label(frame_header, text="Logged in as: " + self.user)
-        header_main.place(x=435, y=5)
-        header_main['font']=fonts.get('h2')
+        login_status=tk.Label(self.header_container, text="Logged in as: " + self.user, justify=tk.RIGHT)
+        login_status.grid(row=0, column=4, sticky=tk.E)
 
         # ------------Main/Content-Panel------------------
         self.main_panel = ttk.Notebook(self)
-        self.main_panel.place(x=0, y=40, anchor="nw")
+        self.main_panel.grid(row=1, column=0)
+        # self.main_panel.grid_propagate(False)
 
         # ------- Adding Buttons and Respective Panels -----------
         self.frames = {}
@@ -75,9 +71,10 @@ class MainWindow2(tk.Tk):
 
 
             # Panel in Main Window
-            frame = F(self.main_panel, self)
+            frame = F(self.main_panel, self, width=780, height=300)
             self.main_panel.add(frame, text=F.__name__)
             self.frames[F.__name__] = frame
+
 
         # # ---Navigation Frame---
         # frame_navigation=tk.Frame(main, background='white')
@@ -96,6 +93,13 @@ class MainWindow2(tk.Tk):
         # panel_side=tk.Frame(frame_navigation, background='#c32148', height=32, width=5)
         # panel_side.place(x=0,y=0)
 
+        # ---Footer Container---
+        self.footer_container=tk.Frame(self, width=630, height=40, pady=10)
+        self.footer_container.grid(row=2, column=0)
+
+        logout = tk.Button(self.footer_container, text="Logout", command=self.logout)
+        logout.grid(row=0, column=0, sticky=tk.W, padx=10, pady=10)
+
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         print("Raised", page_name)
@@ -103,6 +107,8 @@ class MainWindow2(tk.Tk):
         frame = self.frames[page_name]
         print(frame)
         frame.tkraise()
+
+
 # def mainWindow():
 
 #     # -----------Constructor------------------

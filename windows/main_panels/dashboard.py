@@ -2,12 +2,11 @@ import tkinter as tk
 from config import fonts
 
 class Dashboard(tk.Frame):
-    def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+    def __init__(self, parent, controller, *args, **kwargs):
+        tk.Frame.__init__(self, parent, *args, **kwargs)
         self.controller = controller
-        self.pack(expand=True, fill=tk.BOTH)
 
-        tk.Label(self, font=fonts.get('h2'), text='Statistics').grid(row=0, column=0, pady=3, sticky='nsew')
+        tk.Label(self, font=fonts.get('h2'), text='Dashboard').grid(row=0, column=0, pady=3, sticky='nsew')
 
         statistics_container=tk.Frame(self)
         statistics_container.grid(row=1, column=0)
@@ -71,9 +70,9 @@ class Dashboard(tk.Frame):
             parent_frame.grid(row=0, column=widget_no, padx=5)
 
             label=tk.Label(parent_frame, text=box.get('name'), background=box.get('bg'), foreground='white')
-            label.pack(pady=(10,0), padx=12, fill=tk.BOTH)
+            label.grid(column=0, row=0, padx=20, pady=4)
             label['font']=fonts.get('h3')
 
             labll=tk.Label(parent_frame, text=box.get('text'), background=box.get('bg'), foreground='white')
-            labll.pack(fill=tk.BOTH)
+            labll.grid(column=0, row=1, pady=1)
             labll['font']=fonts.get('h1')
