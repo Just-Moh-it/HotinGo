@@ -15,7 +15,6 @@ from .account import Account
 
 class MainWindow(tk.Tk):
 
-
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
@@ -24,6 +23,7 @@ class MainWindow(tk.Tk):
         self.main_window_config = config.get('windows').get('main_window')
         self.geometry("".join((str(self.main_window_config.get('win_width')), "x", str(self.main_window_config.get('win_height')), "+300+200")))
         self.grid_propagate(False)
+
         # These frames are to be put in the main window
         self.frames_to_show = [
             Dashboard,
@@ -33,6 +33,7 @@ class MainWindow(tk.Tk):
             Payment
         ]
 
+        # Root Window
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand=True)
 
@@ -40,25 +41,33 @@ class MainWindow(tk.Tk):
         self.nav_bar = tk.Frame(container, bg="grey", width=self.main_window_config.get('nav_width'))
         self.nav_bar.grid(row=0, column=0, sticky="nw")
 
-        # ------------Main-Panel------------------
+        # ------------ Header - Top ------------
+        self.header_container = tk.Frame(container, bg="grey")
+        self.header_container.grid(row=0, column=1)
+
+        title_text = tk.StringVar()
+        title = tk.Label(self.header_container, textvariable=title_text, font=("Helvetica", 20), bg="grey")
+        title.grid(row = 1, column=0, sticky="nw", pady=10)
+
+        # ------------Content-Panel------------------
         self.main_panel = tk.Frame(container, bg="grey")
-        self.main_panel.grid(row=0, column=1)
+        self.main_panel.grid(row=1, column=1)
+        self.main_panel.grid_rowconfigure(0, weight=1)
+        self.main_panel.grid_columnconfigure(0, weight=1)
 
         # ------- Adding Buttons and Respective Panels -----------
         self.frames = {}
         for i, F in enumerate(self.frames_to_show):
-            def raise_frame():
-                self.show_frame(F.__name__)
 
             # Button in navbar
-            button = tk.Button(self.nav_bar, text=F.__name__, relief=tk.FLAT, command=raise_frame)
+            button = tk.Button(self.nav_bar, text=F.__name__, relief=tk.FLAT, command=lambda x = F.__name__: self.show_frame(x))
             button.grid(row=i + 1, column=0, sticky="ew", padx=10, pady=10)
 
 
             # Panel in Main Window
             frame = F(self.main_panel, self)
             self.frames[F.__name__] = frame
-            frame.pack(expand=True, fill="both")
+            frame.grid(row=0, column=0, sticky="nsew")
 
         # # ---Navigation Frame---
         # frame_navigation=tk.Frame(main, background='white')
@@ -80,8 +89,9 @@ class MainWindow(tk.Tk):
     def show_frame(self, page_name):
         '''Show a frame for the given page name'''
         print("Raised", page_name)
-        print(self.frames)
+        # print(self.frames)
         frame = self.frames[page_name]
+        print(frame)
         frame.tkraise()
 # def mainWindow():
 

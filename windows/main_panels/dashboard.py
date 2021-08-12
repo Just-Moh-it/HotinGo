@@ -7,7 +7,7 @@ class Dashboard(tk.Frame):
         self.controller = controller
         self.pack(expand=True, fill=tk.BOTH)
 
-        tk.Label(self, font=fonts.get('h2'), text='Statistics').grid(row=0, column=0, pady=3, sticky='w')
+        tk.Label(self, font=fonts.get('h2'), text='Statistics').grid(row=0, column=0, pady=3, sticky='nsew')
 
         statistics_container=tk.Frame(self)
         statistics_container.grid(row=1, column=0)
@@ -27,32 +27,38 @@ class Dashboard(tk.Frame):
             {
                 'name': 'Vacant\nRooms',
                 'val-label': label_va_rooms,
-                'bg': '#FF0013'
+                'bg': '#FF0013',
+                'text': '1',
             },
             {
                 'name': 'Booked\nRooms',
                 'val-label': label_bo_rooms,
-                'bg': '#FF9100'
+                'bg': '#FF9100',
+                'text': '2'
             },
             {
                 'name': 'Total\nRooms',
                 'val-label': label_to_rooms,
-                'bg': '#FFC200'
+                'bg': '#FFC200',
+                'text': '4'
             },
             {
                 'name': 'Total Money\nRecieved',
                 'val-label': label_va_rooms,
-                'bg': '#00B950'
+                'bg': '#00B950',
+                'text': '10'
             },
             {
                 'name': 'Full Hotel\nValue',
                 'val-label': label_fu_hotel,
-                'bg': '#4842B8'
+                'bg': '#4842B8',
+                'text': '30'
             },
             {
                 'name': 'Temp\nValue',
                 'val-label': label_temp,
-                'bg': '#AD00B1'
+                'bg': '#AD00B1',
+                'text': '30'
             }
         ]
 
@@ -68,6 +74,6 @@ class Dashboard(tk.Frame):
             label.pack(pady=(10,0), padx=12, fill=tk.BOTH)
             label['font']=fonts.get('h3')
 
-            labll=tk.Label(parent_frame, text=box.get('val-label'), background=box.get('bg'), foreground='white')
+            labll=tk.Label(parent_frame, text=box.get('text'), background=box.get('bg'), foreground='white')
             labll.pack(fill=tk.BOTH)
             labll['font']=fonts.get('h1')
