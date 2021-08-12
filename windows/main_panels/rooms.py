@@ -47,6 +47,7 @@ class Rooms(tk.Frame):
         self.password.bind('<KP_Enter>', lambda e: self.save())
         self.password.bind('<Escape>', lambda e: self.controller.show_frame('MainPanels'))
         # Password Confirmation
+        
         tk.Label(self, text='Password Confirmation:').grid(row=4, column=0, sticky='e')
         self.password_confirmation = tk.Entry(self)
         self.password_confirmation.grid(row=4, column=1, sticky='w')
