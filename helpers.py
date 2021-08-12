@@ -55,25 +55,45 @@ def availableRooms(status='v'):
     return cursor.fetchone()[0]
 
 def totalamount(roomno):
-    cmd = "select datediff(check_in , check_out) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_no = roomno;"
+    cmd = f"select datediff(check_out , check_in) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_id = '{roomno}';"
     cursor.execute(cmd)
     return str(cursor.fetchone()[0])
 
-def addguest(name,address,city,email_id,phone,Dlicense):
-    cmd = f'insert into guests(name,address,email_id,city,phone,Driving_License) values({name},{address},{email_id},{city},{phone},{Dlicense});'
+def addguest(name,address,city,email_id,phone):
+    cmd = f"insert into guests(name,address,email_id,city,phone) values('{name}','{address}','{email_id}','{city}',{phone});"
     cursor.execute(cmd)
     
 
 def find_g_id(name):
-    cmd = f"select g_id from guests where name = {name}"
+    cmd = f"select g_id from guests where name = '{name}'"
     cursor.execute(cmd)
-    return cursor.fetchone()[0]
+    out =  cursor.fetchone()[0]
+    return out
 
 def checkin(g_id):
-    cmd = f"select * from reservations where g_id = {g_id}"
+    cmd = f"select * from reservations where g_id = '{g_id}';"
     cursor.execute(cmd)
+    reservation =  cursor.fetchall()
+    if reservation != []:
+        subcmd = f"update reservations set check_in = curdate() where g_id = '{g_id}' "
+        cursor.execute(subcmd)
+        return 'successful'
+    else:
+        return 'No reservations for the given Guest'
+
+def reserve(r_id,g_id,meal,room_id,r_type):
+    cmd1 = f"insert into reservations values('{r_id}','{g_id}',curdate(),Null,Null,'{meal}','{room_id}','{r_type}')"
+    cmd2 = f"update rooms set currently_booked = 1 where room_id = '{room_id}'"
+    cursor.execute(cmd2)
+    cursor.execute(cmd1)
     return cursor.fetchall()
 
+def checkout(roomno):
+    cmd1 = f"update reservations set check_out = curdate() where room_id = '{roomno}' "
+    cmd2 = f"update rooms set currently_booked = 0 where room_id = '{roomno}' "
+    cursor.execute(cmd1)
+    cursor.execute(cmd2)
+    return totalamount(roomno)
 
 #============Python Functions==========
 
@@ -106,4 +126,5 @@ def return_rooms():
 
 
 if __name__ == '__main__':
-    print(availableRooms())
+  #addguest('xdc','sdasdasdasv','njn','ajbjccb',1242415216126)
+  print(checkout('R001'))
