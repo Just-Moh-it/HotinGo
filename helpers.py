@@ -10,10 +10,10 @@ load_dotenv() # Imports environemnt variables from the '.env' file
 # ===================SQL Connectivity=================
 
 # SQL Connection
-connection=mysql.connector.connect(host=config.get('DB_HOST'), 
-                            user=os.getenv('DB_USER'), 
-                            password=os.getenv('DB_PASSWORD'), 
-                            database = config.get('DB_NAME'), 
+connection=mysql.connector.connect(host=config.get('DB_HOST'),
+                            user=os.getenv('DB_USER'),
+                            password=os.getenv('DB_PASSWORD'),
+                            database = config.get('DB_NAME'),
                             port="3306", autocommit=config.get('DB_AUTOCOMMIT'))
 
 cursor=connection.cursor()
@@ -21,11 +21,10 @@ cursor=connection.cursor()
 # SQL functions
 
 def checkUser(username, password=None):
-    cmd="Select count(username) from login where username='"+username.lower()+(("' and BINARY password='"+password) if password is not None else "")+"';"
-    cursor.execute(cmd)
+    cursor.execute("Select count(username) from login where username='%s' and BINARY password='%s'", (username, password))
     cmd=None
     a=cursor.fetchone()[0]>=1
-    return a 
+    return a
 
 
 
@@ -62,7 +61,7 @@ def totalamount(roomno):
 def addguest(name,address,city,email_id,phone):
     cmd = f"insert into guests(name,address,email_id,city,phone) values('{name}','{address}','{email_id}','{city}',{phone});"
     cursor.execute(cmd)
-    
+
 
 def find_g_id(name):
     cmd = f"select g_id from guests where name = '{name}'"
@@ -107,7 +106,7 @@ def acceptable(*args, acceptables):
                 return False
     return True
 
-# 
+#
 def printer(*args):
     '''
         Takes arguments like that in print and returns string like print() function

@@ -11,10 +11,10 @@ class Rooms(tk.Frame):
         # Form fields and variables
 
         # Form for containing all the data
-        self.data = {}
+        self.data = {'': '', 'room_name': '', 'room_type': '', 'room_size': '', 'room_features': '', 'room_description': ''}
 
-        # for label, value in self.data.items():
-        #     self.data[label] = tk.StringVar()
+        for label, value in self.data.items():
+            self.data[label] = tk.StringVar()
 
         # Form for displaying the data
 
@@ -29,31 +29,19 @@ class Rooms(tk.Frame):
         self.name = tk.Entry(self)
         self.name.grid(row=1, column=1, sticky='w')
         self.name.focus_set()
-        self.name.bind('<Return>', lambda e: self.save())
-        self.name.bind('<KP_Enter>', lambda e: self.save())
-        self.name.bind('<Escape>', lambda e: self.controller.show_frame('MainPanels'))
         # Description
         tk.Label(self, text='Description:').grid(row=2, column=0, sticky='e')
         self.description = tk.Text(self, height=5, width=40)
         self.description.grid(row=2, column=1, sticky='w')
-        self.description.bind('<Return>', lambda e: self.save())
-        self.description.bind('<KP_Enter>', lambda e: self.save())
-        self.description.bind('<Escape>', lambda e: self.controller.show_frame('MainPanels'))
         # Password
         tk.Label(self, text='Password:').grid(row=3, column=0, sticky='e')
         self.password = tk.Entry(self)
         self.password.grid(row=3, column=1, sticky='w')
-        self.password.bind('<Return>', lambda e: self.save())
-        self.password.bind('<KP_Enter>', lambda e: self.save())
-        self.password.bind('<Escape>', lambda e: self.controller.show_frame('MainPanels'))
         # Password Confirmation
-        
+
         tk.Label(self, text='Password Confirmation:').grid(row=4, column=0, sticky='e')
         self.password_confirmation = tk.Entry(self)
         self.password_confirmation.grid(row=4, column=1, sticky='w')
-        self.password_confirmation.bind('<Return>', lambda e: self.save())
-        self.password_confirmation.bind('<KP_Enter>', lambda e: self.save())
-        self.password_confirmation.bind('<Escape>', lambda e: self.controller.show_frame('MainPanels'))
 
         # ----- Form Buttons -----
         # Save
