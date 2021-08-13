@@ -9,7 +9,6 @@ from tkinter import Misc
 
 # Panel imports
 from .dashboard import Dashboard
-from .payment import Payment
 from .reserve import Reserve
 from .rooms import Rooms
 from .guests import Guests
@@ -33,8 +32,7 @@ class MainWindow(tk.Tk):
             Dashboard,
             Reserve,
             Rooms,
-            Guests,
-            Payment
+            Guests
         ]
 
         # Root Window
