@@ -11,9 +11,9 @@ class Rooms(tk.Frame):
         # Form fields and variables
 
         # Form for containing all the data
-        self.data = {'': '', 'room_name': '', 'room_type': '', 'room_size': '', 'room_features': '', 'room_description': ''}
+        self.data = {'room_no': '', 'price': '', 'room_type': '', '': '', 'room_features': '', 'room_description': ''}
 
-        for label, value in self.data.items():
+        for label in self.data.keys():
             self.data[label] = tk.StringVar()
 
         # Form for displaying the data

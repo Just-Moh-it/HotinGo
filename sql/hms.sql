@@ -117,7 +117,6 @@ CREATE TABLE `rooms` (
   `room_no` int(11) DEFAULT NULL,
   `price` int(11) DEFAULT NULL,
   `room_type` char(2) DEFAULT NULL,
-  `rooms_status` tinyint(1) DEFAULT NULL,
   `currently_booked` tinyint(1) DEFAULT 0,
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
@@ -143,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-13  8:41:46
+-- Dump completed on 2021-08-13  9:35:38
