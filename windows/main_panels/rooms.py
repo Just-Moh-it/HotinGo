@@ -1,6 +1,7 @@
 import tkinter as tk
 from config import fonts
 
+
 class Rooms(tk.Frame):
     def __init__(self, parent, controller, *args, **kwargs):
         tk.Frame.__init__(self, parent, *args, **kwargs)
@@ -11,7 +12,7 @@ class Rooms(tk.Frame):
         # Form fields and variables
 
         # Form for containing all the data
-        self.data = {'room_no': '', 'price': '', 'room_type': '', '': '', 'room_features': '', 'room_description': ''}
+        self.data = {'room_no': '', 'price': '', 'room_type': ''}
 
         for label in self.data.keys():
             self.data[label] = tk.StringVar()
@@ -24,34 +25,43 @@ class Rooms(tk.Frame):
 
 
         # ----- Form Fields -----
-        # Name
-        tk.Label(self, text='Name:').grid(row=1, column=0, sticky='e')
-        self.name = tk.Entry(self)
+        # Number
+        tk.Label(self, text='Room Number').grid(row=1, column=0, sticky='e')
+        self.name = tk.Entry(self, textvariable=self.data['room_no'])
         self.name.grid(row=1, column=1, sticky='w')
         self.name.focus_set()
-        # Description
-        tk.Label(self, text='Description:').grid(row=2, column=0, sticky='e')
-        self.description = tk.Text(self, height=5, width=40)
-        self.description.grid(row=2, column=1, sticky='w')
-        # Password
-        tk.Label(self, text='Password:').grid(row=3, column=0, sticky='e')
-        self.password = tk.Entry(self)
-        self.password.grid(row=3, column=1, sticky='w')
-        # Password Confirmation
-
-        tk.Label(self, text='Password Confirmation:').grid(row=4, column=0, sticky='e')
-        self.password_confirmation = tk.Entry(self)
-        self.password_confirmation.grid(row=4, column=1, sticky='w')
+        # Price
+        tk.Label(self, text='Price (inr per night)').grid(row=2, column=0, sticky='e')
+        self.price = tk.Entry(self, textvariable=self.data['price'])
+        self.price.grid(row=2, column=1, sticky='w')
+        # Type
+        tk.Label(self, text='Room Type').grid(row=3, column=0, sticky='e')
+        self.type = tk.Entry(self, textvariable=self.data['room_type'])
+        self.type.grid(row=3, column=1, sticky='w')
 
         # ----- Form Buttons -----
         # Save
-        tk.Button(self, text='Save', command=lambda: print("Not implemented")).grid(row=5, column=0, sticky='e')
+        tk.Button(self, text='Save', command=self.save).grid(row=5, column=0, sticky='e')
         # Cancel
-        tk.Button(self, text='Cancel', command=lambda: print("Not implemented").show_frame('MainPanels')).grid(row=5, column=1, sticky='w')
-        # Clear
-        tk.Button(self, text='Clear', command=lambda: print("Not implemented")).grid(row=5, column=1, sticky='e')
-        # Submit
-        tk.Button(self, text='Submit', command=lambda: print("Not implemented")).grid(row=5, column=1, sticky='w')
-        # Delete
-        tk.Button(self, text='Delete', command=lambda: print("Not implemented")).grid(row=5, column=1, sticky='e')
+        tk.Button(self, text='Cancel', command=self.reset).grid(row=5, column=1, sticky='w')
+
+    # Save the data to the database
+    def save(self):
+        # print all the fields
+        print([self.data[label].get() for label in self.data.keys()])
+        # check if any fields are empty
+        for label in self.data.keys():
+            if self.data[label].get() == '':
+                tk.messagebox.showinfo('Error', 'Please fill in all the fields')
+                return
+
+        # Save the room
+        self.controller.database.add_room(self.data['room_no'].get(), self.data['price'].get(), self.data['room_type'].get())
+        tk.messagebox.showinfo('Success', 'Room added successfully')
+        self.reset()
+
+
+    # Reset the form
+    def reset(self):
+        self.controller.show_frame('Add_Room')
 
