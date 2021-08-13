@@ -120,7 +120,7 @@ def printer(*args):
 
 # Get all guests
 def get_guests():
-    cmd = "select * from guests;"
+    cmd = "select id, name, address, email_id, phone, city, created_at from guests;"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -149,3 +149,19 @@ def get_rooms():
     if cursor.rowcount==0:
         return False
     return cursor.fetchall()
+
+# Get all reservations
+def get_reservations():
+    cmd = "select id, g_id, check_in, check_out, meal, r_id, created_at from reservations;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchall()
+
+# Add a reservation
+def add_reservation(g_id,check_in,meal,r_id):
+    cmd = f"insert into reservations(g_id,check_in,meal,r_id) values('{g_id}','{check_in}','{meal}','{r_id}');"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return True

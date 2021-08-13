@@ -48,7 +48,7 @@ class ShowRooms(tk.Frame):
 
 
         # Create a treeview with rooms as columns and fetch data from the database
-        self.tree = ttk.Treeview(self.container, columns=('Room', 'Type', 'Capacity', 'Description'), height=20)
+        self.tree = ttk.Treeview(self.container, height=20)
         self.rooms = ttk.Treeview(self.container)
         self.rooms['columns']=('Id', 'Number', 'Price', 'Type', 'Created At')
 
