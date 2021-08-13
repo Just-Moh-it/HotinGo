@@ -1,7 +1,7 @@
 from tkinter import messagebox
 import tkinter as tk
 from config import fonts
-from helpers import *
+from controller import *
 from .main_panels.main_window import MainWindow
 from .forgot_password import *
 

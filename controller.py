@@ -124,6 +124,9 @@ def printer(*args):
 def return_rooms():
     pass
 
+def add_room(room_number, room_type, room_price):
+    print("Executed")
+
 
 if __name__ == '__main__':
   #addguest('xdc','sdasdasdasv','njn','ajbjccb',1242415216126)

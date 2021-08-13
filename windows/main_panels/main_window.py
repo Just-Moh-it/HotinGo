@@ -1,9 +1,10 @@
 from tkinter import messagebox
 import tkinter as tk
-from helpers import *
+import controller
 from ..forgot_password import *
 from .. import login
 from tkinter import Misc
+import config
 
 
 # Panel imports
@@ -23,6 +24,10 @@ class MainWindow(tk.Tk):
         self.main_window_config = config.get('windows').get('main_window')
         self.geometry("".join((str(self.main_window_config.get('win_width')), "x", str(self.main_window_config.get('win_height')), "+300+200")))
         self.grid_propagate(False)
+
+        # Config
+        self.controller = controller
+        self.config_var = config
 
         # These frames are to be put in the main window
         self.frames_to_show = [
@@ -65,7 +70,7 @@ class MainWindow(tk.Tk):
 
 
             # Panel in Main Window
-            frame = F(self.main_panel, self)
+            frame = F(self.main_panel, parent=self)
             self.frames[F.__name__] = frame
             frame.grid(row=0, column=0, sticky="nsew")
 

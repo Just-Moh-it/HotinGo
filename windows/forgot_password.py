@@ -3,7 +3,7 @@ import tkinter as tk
 from config import fonts
 from . import login
 from config import config
-from helpers import *
+from controller import *
 
 def forgotPwdWindow():
 
