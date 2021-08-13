@@ -25,10 +25,10 @@ def loginWindow():
             reset(password)
 
 
-    # Forgot Password Button
-    def forgotPwd():
-        login.destroy()
-        forgotPwdWindow()
+    # # Forgot Password Button
+    # def forgotPwd():
+    #     login.destroy()
+    #     forgotPwdWindow()
 
     # Clears all StringVars
     def reset(*args):
@@ -43,10 +43,10 @@ def loginWindow():
     login.title("Login-Hotel Management System")
     login.geometry("370x180+535+310")
     login.resizable(0,0)
-    login['background']='white'
+    # login['background']='white'
 
     # Login Frame
-    frame_login=tk.Frame(login, background='white')
+    frame_login=tk.Frame(login)
     frame_login.place(x=20, y=10)
 
     # Heading
@@ -69,10 +69,10 @@ def loginWindow():
 
 
     # Login Button
-    tk.Button(frame_login, text="Login", height=2, width=9, command=loginFunc).grid(row=3, column=0, columnspan=2, pady=10, padx=(0,150))
+    tk.Button(frame_login, text="Login", height=2, width=9, command=loginFunc).grid(row=3, column=1, columnspan=2, pady=10)
 
-    # Forgot Password Button
-    tk.Button(frame_login, text="Reset Pwd", height=2, width=9, command=forgotPwd).grid(row=3, column=0, columnspan=2, pady=10, padx=(150, 0))
+    # # Forgot Password Button
+    # tk.Button(frame_login, text="Reset Pwd", height=2, width=9, command=forgotPwd).grid(row=3, column=0, columnspan=2, pady=10, padx=(150, 0))
 
     # Or label
-    tk.Label(frame_login, text='or').grid(row=3, column=0, columnspan=2, pady=10, padx=(110,0))
+    # tk.Label(frame_login, text='or').grid(row=3, column=0, columnspan=2, pady=10, padx=(110,0))
