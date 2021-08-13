@@ -54,14 +54,10 @@ def updateUsername(oldusername, password, newusername):
 #         cursor.execute("select count(id) from rooms where currently_booked='0';")
 #     return cursor.fetchone()[0]
 
-def totalamount(roomno):
-    cmd = f"select datediff(check_out , check_in) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_id = '{roomno}';"
+def totalamount(room_no):
+    cmd = f"select datediff(check_out , check_in) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_id = '{room_no}';"
     cursor.execute(cmd)
     return str(cursor.fetchone()[0])
-
-def addguest(name,address,city,email_id,phone):
-    cmd = f"insert into guests(name,address,email_id,city,phone) values('{name}','{address}','{email_id}','{city}',{phone});"
-    cursor.execute(cmd)
 
 
 def find_g_id(name):
@@ -121,13 +117,35 @@ def printer(*args):
             returner+=(" " if not returner[-1:]=="\n" and posa!=0 else "")+arg
     return returner
 
-def return_rooms():
-    pass
 
-def add_room(room_number, room_type, room_price):
-    print("Executed")
+# Get all guests
+def get_guests():
+    cmd = "select * from guests;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchall()
 
+# Add a guest
+def add_guest(name,address,city,email_id,phone):
+    cmd = f"insert into guests(name,address,email_id,city,phone) values('{name}','{address}','{email_id}','{city}',{phone});"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return True
 
-if __name__ == '__main__':
-  #addguest('xdc','sdasdasdasv','njn','ajbjccb',1242415216126)
-  print(checkout('R001'))
+# add a room
+def add_room(room_no,price,room_type):
+    cmd = f"insert into rooms(room_no,price,type) values('{room_no}',{price},'{room_type}');"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return True
+
+# Get All rooms
+def get_rooms():
+    cmd = "select id, room_no, price, type, created_at from rooms;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchall()
