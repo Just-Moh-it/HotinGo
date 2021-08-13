@@ -21,7 +21,8 @@ cursor=connection.cursor()
 # SQL functions
 
 def checkUser(username, password=None):
-    cursor.execute("Select count(username) from login where username='%s' and BINARY password='%s'", (username, password))
+    cmd = f"Select count(username) from login where username='{username}' and BINARY password='{password}'"
+    cursor.execute(cmd)
     cmd=None
     a=cursor.fetchone()[0]>=1
     return a
@@ -42,16 +43,16 @@ def updateUsername(oldusername, password, newusername):
     cursor.execute(cmd)
     return cursor.fetchone()[0]>=1
 
-def availableRooms(status='v'):
-    # Returns number of rooms either booked or unbooked
-    # Status can be 'b' for booked or 'v' for vacant ot total by default for total rooms
-    if status.casefold()=='b':
-        cursor.execute("select count(room_id) from rooms where currently_booked='1';")
-    elif status.casefold()=='t':
-        cursor.execute("select count(room_id) from rooms")
-    else:
-        cursor.execute("select count(room_id) from rooms where currently_booked='0';")
-    return cursor.fetchone()[0]
+# def availableRooms(status='v'):
+#     # Returns number of rooms either booked or unbooked
+#     # Status can be 'b' for booked or 'v' for vacant ot total by default for total rooms
+#     if status.casefold()=='b':
+#         cursor.execute("select count(id) from rooms where currently_booked='1';")
+#     elif status.casefold()=='t':
+#         cursor.execute("select count(id) from rooms")
+#     else:
+#         cursor.execute("select count(id) from rooms where currently_booked='0';")
+#     return cursor.fetchone()[0]
 
 def totalamount(roomno):
     cmd = f"select datediff(check_out , check_in) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_id = '{roomno}';"
