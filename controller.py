@@ -16,7 +16,7 @@ connection=mysql.connector.connect(host=config.get('DB_HOST'),
                             database = config.get('DB_NAME'),
                             port="3306", autocommit=config.get('DB_AUTOCOMMIT'))
 
-cursor=connection.cursor()
+cursor=connection.cursor(buffered=True)
 
 # SQL functions
 
@@ -77,12 +77,12 @@ def checkin(g_id):
     else:
         return 'No reservations for the given Guest'
 
-def reserve(r_id,g_id,meal,room_id,r_type):
-    cmd1 = f"insert into reservations values('{r_id}','{g_id}',curdate(),Null,Null,'{meal}','{room_id}','{r_type}')"
-    cmd2 = f"update rooms set currently_booked = 1 where room_id = '{room_id}'"
-    cursor.execute(cmd2)
-    cursor.execute(cmd1)
-    return cursor.fetchall()
+# def reserve(r_id,g_id,meal,room_id,r_type):
+#     cmd1 = f"insert into reservations values('{r_id}','{g_id}',curdate(),Null,Null,'{meal}','{room_id}','{r_type}')"
+#     cmd2 = f"update rooms set currently_booked = 1 where room_id = '{room_id}'"
+#     cursor.execute(cmd2)
+#     cursor.execute(cmd1)
+#     return cursor.fetchall()
 
 def checkout(roomno):
     cmd1 = f"update reservations set check_out = curdate() where room_id = '{roomno}' "
@@ -165,3 +165,35 @@ def add_reservation(g_id,check_in,meal,r_id):
     if cursor.rowcount==0:
         return False
     return True
+
+# Get all room count
+def get_total_rooms():
+    cmd = "select count(room_no) from rooms;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchone()[0]
+
+# Check if a room is vacant
+def is_vacant(room_no):
+    cmd = f"select count(id) from reservations where room_id = '{room_no}' and check_in < curdate();"
+
+# Get a list of vanacnt rooms
+def get_vacant_rooms():
+    cmd = ''
+
+# Get total money earned till date
+def get_total_money_earned():
+    cmd = "select sum(price) from reservations as rs, rooms as rm where rs.r_id = rm.id;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchone()[0]
+
+# Get total hotel value
+def get_total_hotel_value():
+    cmd = "select sum(price) from rooms;"
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return cursor.fetchone()[0]

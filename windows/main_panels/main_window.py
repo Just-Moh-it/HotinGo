@@ -5,6 +5,7 @@ from controller import *
 from ..forgot_password import *
 from .. import login
 from tkinter import Misc
+from config import fonts
 
 
 # Panel imports

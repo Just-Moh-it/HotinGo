@@ -1,5 +1,6 @@
 import tkinter as tk
 from config import fonts
+import controller as db_controller
 
 class Dashboard(tk.Frame):
     def __init__(self, parent, controller, *args, **kwargs):
@@ -15,47 +16,34 @@ class Dashboard(tk.Frame):
 
         # initializing Variables
         # Todo: make this dynamic
-        label_va_rooms = "0";
-        label_bo_rooms = "2";
-        label_to_rooms = "0";
-        label_to_money = "0";
-        label_fu_hotel = "0";
-        label_temp = "0";
-
         boxes = [
             {
                 'name': 'Vacant\nRooms',
-                'val-label': label_va_rooms,
                 'bg': '#FF0013',
                 'text': '1',
             },
             {
                 'name': 'Booked\nRooms',
-                'val-label': label_bo_rooms,
                 'bg': '#FF9100',
                 'text': '2'
             },
             {
                 'name': 'Total\nRooms',
-                'val-label': label_to_rooms,
                 'bg': '#FFC200',
-                'text': '4'
+                'text': db_controller.get_total_rooms()
             },
             {
-                'name': 'Total Money\nRecieved',
-                'val-label': label_va_rooms,
+                'name': 'Total Money\nEarned',
                 'bg': '#00B950',
-                'text': '10'
+                'text': db_controller.get_total_money_earned()
             },
             {
                 'name': 'Full Hotel\nValue',
-                'val-label': label_fu_hotel,
                 'bg': '#4842B8',
-                'text': '30'
+                'text': db_controller.get_total_hotel_value()
             },
             {
                 'name': 'Temp\nValue',
-                'val-label': label_temp,
                 'bg': '#AD00B1',
                 'text': '30'
             }
