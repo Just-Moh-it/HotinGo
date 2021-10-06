@@ -3,7 +3,7 @@ import tkinter as tk
 # Configurations and Globals
 
 config = {
-    'DB_HOST': 'vscode.mohityadav.codes',
+    'DB_HOST': 'mohityadav.codes',
     'DB_PORT': 3306,
     'DB_NAME': 'hms',
     'DB_AUTOCOMMIT': True,
