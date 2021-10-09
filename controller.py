@@ -136,7 +136,7 @@ def add_guest(name,address,city,email_id,phone):
 
 # add a room
 def add_room(room_no,price,room_type):
-    cmd = f"insert into rooms(room_no,price,type) values('{room_no}',{price},'{room_type}');"
+    cmd = f"insert into rooms(room_no,price,room_type) values('{room_no}',{price},'{room_type}');"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -144,7 +144,7 @@ def add_room(room_no,price,room_type):
 
 # Get All rooms
 def get_rooms():
-    cmd = "select id, room_no, price, type, created_at from rooms;"
+    cmd = "select id, room_no, price, room_type, created_at from rooms;"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -197,3 +197,4 @@ def get_total_hotel_value():
     if cursor.rowcount==0:
         return False
     return cursor.fetchone()[0]
+
