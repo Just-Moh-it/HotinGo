@@ -1,6 +1,6 @@
 import tkinter as tk
-from windows.login import loginWindow
-from windows.main_panels.main_window import MainWindow
+from new_gui.login.gui import loginWindow
+# from windows.main_panels.main_window import MainWindow
 
 # Main window constructor
 root = tk.Tk() # Make temporary window for app to start
@@ -13,4 +13,3 @@ if (__name__ == "__main__"):
     # MainWindow()
 
     root.mainloop()
-    
