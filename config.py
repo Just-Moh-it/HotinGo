@@ -26,7 +26,11 @@ config = {
             'win_height': 450,
             'nav_width': 170
         }
-    }
+    },
+
+    'sidebar_button_positions': [
+        
+    ]
 }
 
 # Font
