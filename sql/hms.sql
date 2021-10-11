@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.25, for macos11.3 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.26, for macos11.4 (arm64)
 --
--- Host: vscode.mohityadav.codes    Database: hms
+-- Host: mohityadav.codes    Database: hms
 -- ------------------------------------------------------
--- Server version	5.5.5-10.3.29-MariaDB-0+deb10u1
+-- Server version	5.5.5-10.5.12-MariaDB-0ubuntu0.21.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -93,7 +93,7 @@ CREATE TABLE `reservations` (
   KEY `FK_rooms` (`r_id`),
   CONSTRAINT `FK_guests` FOREIGN KEY (`g_id`) REFERENCES `guests` (`id`),
   CONSTRAINT `FK_rooms` FOREIGN KEY (`r_id`) REFERENCES `rooms` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,6 +102,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+INSERT INTO `reservations` VALUES (1,1,NULL,'2021-10-09 00:00:00',NULL,0,1,NULL,'2021-10-09 11:59:35'),(5,1,NULL,'2021-10-10 00:00:00',NULL,0,1,NULL,'2021-10-09 12:01:13');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +122,7 @@ CREATE TABLE `rooms` (
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `room_no` (`room_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,6 +131,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
+INSERT INTO `rooms` VALUES (1,1,3000,'B',0,'2021-10-09 11:58:54');
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -142,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-13  9:35:38
+-- Dump completed on 2021-10-11 16:06:03
