@@ -234,7 +234,7 @@ class About(Frame):
             56.0,
             223.0,
             anchor="nw",
-            text="passionate learner, Mohit like to bring",
+            text="passionate learner, Mohit likes to bring",
             fill="#777777",
             font=("Montserrat Medium", 13 * -1)
         )

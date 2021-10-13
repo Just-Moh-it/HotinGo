@@ -144,7 +144,7 @@ def add_room(room_no,price,room_type):
 
 # Get All rooms
 def get_rooms():
-    cmd = "select id, room_no, price, room_type, created_at from rooms;"
+    cmd = "select id, room_no, room_type, price, created_at from rooms;"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -159,8 +159,8 @@ def get_reservations():
     return cursor.fetchall()
 
 # Add a reservation
-def add_reservation(g_id,check_in,meal,r_id):
-    cmd = f"insert into reservations(g_id,check_in,meal,r_id) values('{g_id}','{check_in}','{meal}','{r_id}');"
+def add_reservation(g_id,meal,r_id,check_in='now'):
+    cmd = f"insert into reservations(g_id,check_in,r_id, meal) values('{g_id}',{f'{chr(39) + check_in + chr(39)}' if check_in != 'now' else 'current_timestamp'},'{meal}','{r_id}');"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -198,3 +198,16 @@ def get_total_hotel_value():
         return False
     return cursor.fetchone()[0]
 
+def delete_reservation(id):
+    cmd = f"delete from reservations where id='{id}';"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+        return False
+    return True
+
+def delete_room(id):
+    cmd = f"delete from rooms where id='{id}';"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+        return False
+    return True

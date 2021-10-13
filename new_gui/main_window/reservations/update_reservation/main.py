@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
 from controller import *
 
 OUTPUT_PATH = Path(__file__).parent
@@ -18,9 +18,21 @@ class UpdateReservations(Frame):
         Frame.__init__(self, parent, *args, **kwargs)
         # self.controller = parent.controller
         self.parent = parent
+        self.selected_r_id = self.parent.selected_rid
 
         # self.geometry("797x432")
         self.configure(bg = "#FFFFFF")
+
+        self.data = {
+            'id': StringVar(),
+            'meal': StringVar(),
+            'type': StringVar(),
+            'g_id': StringVar(),
+            'check_in': StringVar(),
+            'room_id': StringVar(),
+            'reservation_date': StringVar(),
+            'check_out': StringVar(),
+        }
 
 
         self.canvas = Canvas(
@@ -97,7 +109,7 @@ class UpdateReservations(Frame):
             60.0,
             152.0,
             anchor="nw",
-            text=self.parent.selected_r_id,
+            text=self.selected_r_id or "Select record first...",
             fill="#979797",
             font=("Montserrat Bold", 18 * -1)
         )
@@ -131,7 +143,8 @@ class UpdateReservations(Frame):
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['meal']
         )
         entry_2.place(
             x=60.0,
@@ -164,14 +177,15 @@ class UpdateReservations(Frame):
             354.0,
             image=self.entry_image_2
         )
-        entry_2 = Entry(self,
+        entry_3 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['type']
         )
-        entry_2.place(
+        entry_3.place(
             x=60.0,
             y=342.0,
             width=179.0,
@@ -202,14 +216,15 @@ class UpdateReservations(Frame):
             162.0,
             image=self.entry_image_3
         )
-        entry_2 = Entry(self,
+        entry_4 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['g_id']
         )
-        entry_2.place(
+        entry_4.place(
             x=306.0,
             y=150.0,
             width=179.0,
@@ -240,14 +255,16 @@ class UpdateReservations(Frame):
             258.0,
             image=self.entry_image_4
         )
-        entry_2 = Entry(self,
+        entry_5 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['check_in']
+
         )
-        entry_2.place(
+        entry_5.place(
             x=306.0,
             y=246.0,
             width=179.0,
@@ -278,14 +295,15 @@ class UpdateReservations(Frame):
             354.0,
             image=self.entry_image_5
         )
-        entry_2 = Entry(self,
+        entry_6 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['reservation_date']
         )
-        entry_2.place(
+        entry_6.place(
             x=306.0,
             y=342.0,
             width=179.0,
@@ -316,14 +334,15 @@ class UpdateReservations(Frame):
             162.0,
             image=self.entry_image_6
         )
-        entry_2 = Entry(self,
+        entry_7 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['room_id']
         )
-        entry_2.place(
+        entry_7.place(
             x=552.0,
             y=150.0,
             width=179.0,
@@ -354,14 +373,16 @@ class UpdateReservations(Frame):
             258.0,
             image=self.entry_image_7
         )
-        entry_2 = Entry(self,
+        entry_8 = Entry(self,
             bd=0,
             bg="#EFEFEF",
             highlightthickness=0,
             font=("Montserrat Bold", 18 * -1),
-            foreground="#777777"
+            foreground="#777777",
+            textvariable=self.data['check_out']
+
         )
-        entry_2.place(
+        entry_8.place(
             x=552.0,
             y=246.0,
             width=179.0,
@@ -374,7 +395,7 @@ class UpdateReservations(Frame):
             image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_2 clicked"),
+            command=self.handle_update,
             relief="flat"
         )
         button_2.place(
@@ -383,3 +404,7 @@ class UpdateReservations(Frame):
             width=144.0,
             height=48.0
         )
+
+    def handle_update(self):
+        print(self.data)
+        return

@@ -12,10 +12,10 @@ ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def view_reservations():
-    ViewReservations()
+def view_rooms():
+    ViewRooms()
 
-class ViewReservations(Frame):
+class ViewRooms(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
         # self.controller = parent.controller
@@ -56,7 +56,7 @@ class ViewReservations(Frame):
             116.0,
             33.0,
             anchor="nw",
-            text="View Reservations",
+            text="View Rooms",
             fill="#5E95FF",
             font=("Montserrat Bold", 26 * -1)
         )
@@ -158,7 +158,7 @@ class ViewReservations(Frame):
             image=self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("self.delete_btn clicked"),
+            command=self.handle_delete,
             relief="flat",
             state="disabled"
         )
@@ -176,7 +176,7 @@ class ViewReservations(Frame):
             image=self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("self.edit_btn clicked"),
+            command=self.handle_edit,
             relief="flat",
             state="disabled"
 
@@ -198,13 +198,11 @@ class ViewReservations(Frame):
         # Add treeview here
 
         self.columns = {
-            'res': 'Res. ID',
-            'gue': 'Guest ID',
-            'roo': 'Room ID',
-            'c_i': 'Check In Time',
-            'c_o': 'Check Out Time',
-            'mea': 'Meal',
-            'sta': 'Status'
+            'Room ID': ['Room ID', 100],
+            'Number': ['Number', 80],
+            'Type': ['Type', 100],
+            'Price': ['Price', 150],
+            'Created At': ['Created At', 250]
         }
 
         self.treeview = Treeview(self,
@@ -218,25 +216,10 @@ class ViewReservations(Frame):
         )
 
         # Show the headings
-        self.treeview.heading(list(self.columns.keys())[0], text="Res")
-        self.treeview.heading(list(self.columns.keys())[1], text="Guest ID")
-        self.treeview.heading(list(self.columns.keys())[2], text="Room ID")
-        self.treeview.heading(list(self.columns.keys())[3], text="Check In")
-        self.treeview.heading(list(self.columns.keys())[4], text="Check Out")
-        self.treeview.heading(list(self.columns.keys())[5], text="Meal")
-        self.treeview.heading(list(self.columns.keys())[6], text="Status")
-        # Set the column widths
-        self.treeview.column(list(self.columns.keys())[0], width=50)
-        self.treeview.column(list(self.columns.keys())[1], width=50)
-        self.treeview.column(list(self.columns.keys())[2], width=50)
-        self.treeview.column(list(self.columns.keys())[3], width=150)
-        self.treeview.column(list(self.columns.keys())[4], width=150)
-        self.treeview.column(list(self.columns.keys())[5], width=60)
-        self.treeview.column(list(self.columns.keys())[6], width=100)
-        # # Insert data from variable
-        # if self.reservation_data:
-        #     for reservation in self.reservation_data:
-        #         self.treeview.insert('', 'end', values=reservation)
+        for idx, txt in self.columns.items():
+            self.treeview.heading(idx, text=txt[0])
+            # Set the column widths
+            self.treeview.column(idx, width=txt[1])
 
         self.treeview.place(
             x=40.0,
@@ -252,38 +235,11 @@ class ViewReservations(Frame):
         self.treeview.bind("<<TreeviewSelect>>", self.on_treeview_select)
 
 
-        # Add sample data
-        self.button_image_5 = PhotoImage(
-            file=relative_to_assets("button_5.png"))
-        self.checkout_btn = Button(self,
-            image=self.button_image_5,
-            borderwidth=0,
-            highlightthickness=0,
-            command=self.handle_checkout,
-            relief="flat",
-            state="disabled"
-        )
-
-        self.checkout_btn.place(
-            x=272.0,
-            y=359.0,
-            width=174.0,
-            height=48.0
-        )
-
-    def handle_checkout(self, event=None):
-        if not self.parent.selected_rid:
-            # Show warning
-            messagebox.showwarning("Select a Reservation First", "Please select a reservation to checkout")
-        # Get the selected reservation
-        db_controller.checkout(self.parent.selected_rid)
-        self.handle_refresh()
-
 
     def filter_treeview_records(self, query):
         self.treeview.delete(*self.treeview.get_children())
         # run for loop from original data
-        for row in self.reservation_data:
+        for row in self.room_data:
             # Check if query exists in any value from data
             if query.lower() in str(row).lower():
                 # Insert the data into the treeview
@@ -297,17 +253,17 @@ class ViewReservations(Frame):
             return
         # Get the selected item
         item = self.treeview.selection()[0]
-        # Get the reservation id
+        # Get the room id
         self.parent.selected_rid = self.treeview.item(item, "values")[0]
         # Enable the buttons
         self.delete_btn.config(state="normal")
         self.edit_btn.config(state="normal")
-        self.checkout_btn.config(state="normal")
+        print(self.parent.selected_rid)
 
     def handle_refresh(self):
         self.treeview.delete(*self.treeview.get_children())
-        self.reservation_data = db_controller.get_reservations()
-        for row in self.reservation_data:
+        self.room_data = db_controller.get_rooms()
+        for row in self.room_data:
             self.treeview.insert("", "end", values=row)
 
 
@@ -315,4 +271,15 @@ class ViewReservations(Frame):
         self.parent.navigate('add')
 
     def handle_delete(self):
-        db_controller.delete_reservation(self.parent.selected_rid)
+        if db_controller.delete_room(self.parent.selected_rid):
+            messagebox.showinfo("Successfully Deleted the room")
+        else:
+            messagebox.showerror("Unable to delete room")
+
+        self.handle_refresh()
+
+
+
+    def handle_edit(self):
+        print("Unable to set current id, navigating")
+        self.parent.navigate('edit')

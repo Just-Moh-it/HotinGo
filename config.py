@@ -3,10 +3,16 @@ import tkinter as tk
 # Configurations and Globals
 
 config = {
-    'DB_HOST': 'mohityadav.codes',
     'DB_PORT': 3306,
     'DB_NAME': 'hms',
     'DB_AUTOCOMMIT': True,
+
+    # Server Details
+    # 'DB_HOST': 'mohityadav.codes',
+
+    # Localhost Details
+    'DB_HOSt': 'localhost',
+
 
     # 'SEC_QUES':[
     # "What was the first movie you watched at the cinema?",
@@ -29,7 +35,7 @@ config = {
     },
 
     'sidebar_button_positions': [
-        
+
     ]
 }
 

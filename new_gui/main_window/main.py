@@ -1,10 +1,11 @@
 from pathlib import Path
 import config
-from tkinter import Toplevel, Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
+from tkinter import Toplevel, Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
 from controller import *
 from new_gui.main_window.dashboard.gui import Dashboard
 from new_gui.main_window.reservations.main import Reservations
 from new_gui.main_window.about.main import About
+from new_gui.main_window.rooms.main import Rooms
 from .. import login
 
 OUTPUT_PATH = Path(__file__).parent
@@ -29,6 +30,8 @@ class MainWindow(Toplevel):
         self.geometry("1012x506")
         self.configure(bg = "#5E95FF")
 
+        self.current_window = None
+        self.current_window_label = StringVar()
 
         self.canvas = Canvas(
             self,
@@ -160,11 +163,11 @@ class MainWindow(Toplevel):
             height=47.0
         )
 
-        self.canvas.create_text(
+        self.heading = self.canvas.create_text(
             255.0,
             33.0,
             anchor="nw",
-            text="Dashboard",
+            text="Hello",
             fill="#5E95FF",
             font=("Montserrat Bold", 26 * -1)
         )
@@ -208,13 +211,15 @@ class MainWindow(Toplevel):
         # Loop through windows and place them
         self.windows = {
             'dash': Dashboard(self),
-            # Rooms(self),
+            'roo': Rooms(self),
             # Guests(self),
             'abt': About(self),
             'res': Reservations(self),
         }
 
-        self.current_window = self.windows['dash']
+        self.handle_btn_press(self.dashboard_btn, 'dash')
+        self.sidebar_indicator.place(x=0, y=133)
+
         self.current_window.place(x=215, y=72, width=1013.0,
             height=506.0)
 
@@ -240,7 +245,14 @@ class MainWindow(Toplevel):
         for window in self.windows.values():
             window.place_forget()
 
+        # Set ucrrent Window
+        self.current_window = self.windows.get(name)
+
         # Show the screen of the button pressed
         self.windows[name].place(x=215, y=72, width=1013.0,
             height=506.0)
+
+        # Handle label change
+        current_name = self.windows.get(name)._name.split('!')[-1].capitalize()
+        self.canvas.itemconfigure(self.heading, text=current_name)
 

@@ -3,9 +3,9 @@ from pathlib import Path
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
 from controller import *
 
-from .add_reservations.gui import AddReservations
-from .view_reservations.main import ViewReservations
-from .update_reservation.main import UpdateReservations
+from .add_room.gui import AddRooms
+from .view_rooms.main import ViewRooms
+from .update_rooms.main import UpdateRooms
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -14,11 +14,11 @@ ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
-def reservations():
-    Reservations()
+def rooms():
+    Rooms()
 
 
-class Reservations(Frame):
+class Rooms(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
         # self.controller = parent.controller
@@ -30,9 +30,9 @@ class Reservations(Frame):
 
         # Loop through windows and place them
         self.windows = {
-            'add': AddReservations(self),
-            'view': ViewReservations(self),
-            'edit': UpdateReservations(self),
+            'add': AddRooms(self),
+            'view': ViewRooms(self),
+            'edit': UpdateRooms(self),
         }
 
         self.current_window = self.windows['add']
