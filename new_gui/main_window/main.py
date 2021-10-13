@@ -3,6 +3,8 @@ import config
 from tkinter import Toplevel, Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
 from controller import *
 from new_gui.main_window.dashboard.gui import Dashboard
+from new_gui.main_window.reservations.main import Reservations
+from new_gui.main_window.about.main import About
 from .. import login
 
 OUTPUT_PATH = Path(__file__).parent
@@ -68,7 +70,7 @@ class MainWindow(Toplevel):
             image=button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.handle_btn_press(self.dashboard_btn),
+            command=lambda: self.handle_btn_press(self.dashboard_btn, 'dash'),
             relief="flat"
         )
         self.dashboard_btn.place(
@@ -84,7 +86,7 @@ class MainWindow(Toplevel):
             image=button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.handle_btn_press(self.rooms_btn),
+            command=lambda: self.handle_btn_press(self.rooms_btn, 'roo'),
             relief="flat"
         )
         self.rooms_btn.place(
@@ -100,7 +102,7 @@ class MainWindow(Toplevel):
             image=button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.handle_btn_press(self.guests_btn),
+            command=lambda: self.handle_btn_press(self.guests_btn, 'gue'),
             relief="flat"
         )
         self.guests_btn.place(
@@ -116,7 +118,7 @@ class MainWindow(Toplevel):
             image=button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.handle_btn_press(self.about_btn),
+            command=lambda: self.handle_btn_press(self.about_btn, 'abt'),
             relief="flat"
         )
         self.about_btn.place(
@@ -148,7 +150,7 @@ class MainWindow(Toplevel):
             image=button_image_6,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.handle_btn_press(self.reservations_btn),
+            command=lambda: self.handle_btn_press(self.reservations_btn, 'res'),
             relief="flat"
         )
         self.reservations_btn.place(
@@ -182,7 +184,7 @@ class MainWindow(Toplevel):
             anchor="nw",
             text="Administrator",
             fill="#808080",
-            font=("Montserrat SemiBold", 16 * -1)
+            font=("Montserrat Medium", 16 * -1)
         )
 
         self.canvas.create_text(
@@ -203,13 +205,20 @@ class MainWindow(Toplevel):
             font=("Montserrat Bold", 48 * -1)
         )
 
-        self.Dashboard = Dashboard(self)
-        self.Dashboard.place(
-            x=215.0,
-            y=72.0,
-            width=1013.0,
-            height=506.0
-        )
+        # Loop through windows and place them
+        self.windows = {
+            'dash': Dashboard(self),
+            # Rooms(self),
+            # Guests(self),
+            'abt': About(self),
+            'res': Reservations(self),
+        }
+
+        self.current_window = self.windows['dash']
+        self.current_window.place(x=215, y=72, width=1013.0,
+            height=506.0)
+
+        self.current_window.tkraise()
         self.resizable(False, False)
         self.mainloop()
 
@@ -223,5 +232,15 @@ class MainWindow(Toplevel):
             self.destroy()
             login.gui.loginWindow()
 
-    def handle_btn_press(self, caller):
-        print(self.sidebar_indicator.place(x=0, y=caller.winfo_y()))
+    def handle_btn_press(self, caller, name):
+        # Place the sidebar on respective button
+        self.sidebar_indicator.place(x=0, y=caller.winfo_y())
+
+        # Hide all screens
+        for window in self.windows.values():
+            window.place_forget()
+
+        # Show the screen of the button pressed
+        self.windows[name].place(x=215, y=72, width=1013.0,
+            height=506.0)
+
