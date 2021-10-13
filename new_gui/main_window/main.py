@@ -6,6 +6,7 @@ from new_gui.main_window.dashboard.gui import Dashboard
 from new_gui.main_window.reservations.main import Reservations
 from new_gui.main_window.about.main import About
 from new_gui.main_window.rooms.main import Rooms
+from new_gui.main_window.guests.main import Guests
 from .. import login
 
 OUTPUT_PATH = Path(__file__).parent
@@ -212,7 +213,7 @@ class MainWindow(Toplevel):
         self.windows = {
             'dash': Dashboard(self),
             'roo': Rooms(self),
-            # Guests(self),
+            'gue': Guests(self),
             'abt': About(self),
             'res': Reservations(self),
         }

@@ -127,8 +127,8 @@ def get_guests():
     return cursor.fetchall()
 
 # Add a guest
-def add_guest(name,address,city,email_id,phone):
-    cmd = f"insert into guests(name,address,email_id,city,phone) values('{name}','{address}','{email_id}','{city}',{phone});"
+def add_guest(name,address,email_id,phone):
+    cmd = f"insert into guests(name,address,email_id,phone) values('{name}','{address}','{email_id}',{phone});"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
@@ -207,6 +207,13 @@ def delete_reservation(id):
 
 def delete_room(id):
     cmd = f"delete from rooms where id='{id}';"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+        return False
+    return True
+
+def delete_guest(id):
+    cmd = f"delete from guests where id='{id}';"
     cursor.execute(cmd)
     if cursor.rowcount == 0:
         return False

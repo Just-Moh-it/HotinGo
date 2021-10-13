@@ -8,10 +8,10 @@ config = {
     'DB_AUTOCOMMIT': True,
 
     # Server Details
-    # 'DB_HOST': 'mohityadav.codes',
+    'DB_HOST': 'mohityadav.codes',
 
     # Localhost Details
-    'DB_HOSt': 'localhost',
+    # 'DB_HOSt': 'localhost',
 
 
     # 'SEC_QUES':[
