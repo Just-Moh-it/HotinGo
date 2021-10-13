@@ -1,7 +1,9 @@
+from logging import disable
 from pathlib import Path
+import controller as db_controller
 
-from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
-from controller import *
+from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
+from tkinter.ttk import Treeview
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -18,6 +20,11 @@ class ViewReservations(Frame):
         Frame.__init__(self, parent, *args, **kwargs)
         # self.controller = parent.controller
         self.parent = parent
+        self.search_query = StringVar()
+        self.selected_reservation_id = None
+
+        # Load the data
+        self.reservation_data = None
 
         # self.geometry("797x432")
         self.configure(bg = "#FFFFFF")
@@ -96,8 +103,12 @@ class ViewReservations(Frame):
             bg="#EFEFEF",
             highlightthickness=0,
             foreground="#777777",
-            font=("Montserrat Bold", 18 * -1)
+            font=("Montserrat Bold", 18 * -1),
+            textvariable=self.search_query
         )
+        # Bind text change to function
+        entry_1.bind("<KeyRelease>", lambda event: self.filter_treeview_records(self.search_query.get()))
+
         entry_1.place(
             x=637.0,
             y=48.0,
@@ -107,14 +118,14 @@ class ViewReservations(Frame):
 
         self.button_image_1 = PhotoImage(
             file=relative_to_assets("button_1.png"))
-        button_1 = Button(self,
+        self.refresh_btn = Button(self,
             image=self.button_image_1,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_1 clicked"),
+            command=self.handle_refresh,
             relief="flat"
         )
-        button_1.place(
+        self.refresh_btn.place(
             x=525.0,
             y=33.0,
             width=53.0,
@@ -131,14 +142,14 @@ class ViewReservations(Frame):
 
         self.button_image_2 = PhotoImage(
             file=relative_to_assets("button_2.png"))
-        button_2 = Button(self,
+        self.navigate_back_btn = Button(self,
             image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: self.parent.navigate('add'),
+            command=self.handle_navigate_back,
             relief="flat"
         )
-        button_2.place(
+        self.navigate_back_btn.place(
             x=40.0,
             y=33.0,
             width=53.0,
@@ -147,14 +158,16 @@ class ViewReservations(Frame):
 
         self.button_image_3 = PhotoImage(
             file=relative_to_assets("button_3.png"))
-        button_3 = Button(self,
+        self.delete_btn = Button(self,
             image=self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_3 clicked"),
-            relief="flat"
+            command=lambda: print("self.delete_btn clicked"),
+            relief="flat",
+            state="disabled"
         )
-        button_3.place(
+
+        self.delete_btn.place(
             x=596.0,
             y=359.0,
             width=146.0,
@@ -163,40 +176,144 @@ class ViewReservations(Frame):
 
         self.button_image_4 = PhotoImage(
             file=relative_to_assets("button_4.png"))
-        button_4 = Button(self,
+        self.edit_btn = Button(self,
             image=self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_4 clicked"),
-            relief="flat"
+            command=lambda: print("self.edit_btn clicked"),
+            relief="flat",
+            state="disabled"
+
         )
-        button_4.place(
+        self.edit_btn.place(
             x=463.0,
             y=359.0,
             width=116.0,
             height=48.0
         )
 
-        self.canvas.create_rectangle(
-            40.0,
-            101.0,
-            742.0,
-            329.0,
-            fill="#EFEFEF",
-            outline="")
+        # self.canvas.create_rectangle(
+        #     40.0,
+        #     101.0,
+        #     742.0,
+        #     329.0,
+        #     fill="#EFEFEF",
+        #     outline="")
+        # Add treeview here
 
+        self.columns = {
+            'res': 'Res. ID',
+            'gue': 'Guest ID',
+            'roo': 'Room ID',
+            'c_i': 'Check In Time',
+            'c_o': 'Check Out Time',
+            'mea': 'Meal',
+            'sta': 'Status'
+        }
+
+        self.treeview = Treeview(self,
+            columns=list(self.columns.keys()),
+            show="headings",
+            height=200,
+            selectmode="browse",
+            # ="#FFFFFF",
+            # fg="#5E95FF",
+            # font=("Montserrat Bold", 18 * -1)
+        )
+
+        # Show the headings
+        self.treeview.heading(list(self.columns.keys())[0], text="Res")
+        self.treeview.heading(list(self.columns.keys())[1], text="Guest ID")
+        self.treeview.heading(list(self.columns.keys())[2], text="Room ID")
+        self.treeview.heading(list(self.columns.keys())[3], text="Check In")
+        self.treeview.heading(list(self.columns.keys())[4], text="Check Out")
+        self.treeview.heading(list(self.columns.keys())[5], text="Meal")
+        self.treeview.heading(list(self.columns.keys())[6], text="Status")
+        # Set the column widths
+        self.treeview.column(list(self.columns.keys())[0], width=50)
+        self.treeview.column(list(self.columns.keys())[1], width=50)
+        self.treeview.column(list(self.columns.keys())[2], width=50)
+        self.treeview.column(list(self.columns.keys())[3], width=150)
+        self.treeview.column(list(self.columns.keys())[4], width=150)
+        self.treeview.column(list(self.columns.keys())[5], width=60)
+        self.treeview.column(list(self.columns.keys())[6], width=100)
+        # # Insert data from variable
+        # if self.reservation_data:
+        #     for reservation in self.reservation_data:
+        #         self.treeview.insert('', 'end', values=reservation)
+
+        self.treeview.place(
+            x=40.0,
+            y=101.0,
+            width=700.0,
+            height=229.0
+        )
+
+        # Insert data
+        self.handle_refresh()
+
+        # Add selection event
+        self.treeview.bind("<<TreeviewSelect>>", self.on_treeview_select)
+
+
+        # Add sample data
         self.button_image_5 = PhotoImage(
             file=relative_to_assets("button_5.png"))
-        button_5 = Button(self,
+        self.checkout_btn = Button(self,
             image=self.button_image_5,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("button_5 clicked"),
-            relief="flat"
+            command=self.handle_checkout,
+            relief="flat",
+            state="disabled"
         )
-        button_5.place(
+
+        self.checkout_btn.place(
             x=272.0,
             y=359.0,
             width=174.0,
             height=48.0
         )
+
+    def handle_checkout(self, event=None):
+        if not self.selected_reservation_id:
+            # Show warning
+            messagebox.showwarning("Select a Reservation First", "Please select a reservation to checkout")
+        # Get the selected reservation
+        db_controller.checkout(self.selected_reservation_id)
+        self.handle_refresh()
+
+
+    def filter_treeview_records(self, query):
+        self.treeview.delete(*self.treeview.get_children())
+        # run for loop from original data
+        for row in self.reservation_data:
+            # Check if query exists in any value from data
+            if query.lower() in str(row).lower():
+                # Insert the data into the treeview
+                self.treeview.insert("", "end", values=row)
+        self.on_treeview_select()
+
+    def on_treeview_select(self, event=None):
+        try: self.treeview.selection()[0]
+        except:
+            self.selected_reservation_id = None
+            return
+        # Get the selected item
+        item = self.treeview.selection()[0]
+        # Get the reservation id
+        self.selected_reservation_id = self.treeview.item(item, "values")[0]
+        # Enable the buttons
+        self.delete_btn.config(state="normal")
+        self.edit_btn.config(state="normal")
+        self.checkout_btn.config(state="normal")
+
+    def handle_refresh(self):
+        self.treeview.delete(*self.treeview.get_children())
+        self.reservation_data = db_controller.get_reservations()
+        for row in self.reservation_data:
+            self.treeview.insert("", "end", values=row)
+
+
+    def handle_navigate_back(self):
+        self.parent.navigate('add')

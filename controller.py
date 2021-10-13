@@ -84,12 +84,12 @@ def checkin(g_id):
 #     cursor.execute(cmd1)
 #     return cursor.fetchall()
 
-def checkout(roomno):
-    cmd1 = f"update reservations set check_out = curdate() where room_id = '{roomno}' "
-    cmd2 = f"update rooms set currently_booked = 0 where room_id = '{roomno}' "
-    cursor.execute(cmd1)
-    cursor.execute(cmd2)
-    return totalamount(roomno)
+def checkout(id):
+    cmd = f'update reservations set check_out=current_timestamp where id={id} limit 1;'
+    cursor.execute(cmd)
+    if cursor.rowcount==0:
+        return False
+    return True
 
 #============Python Functions==========
 
@@ -152,7 +152,7 @@ def get_rooms():
 
 # Get all reservations
 def get_reservations():
-    cmd = "select id, g_id, check_in, check_out, meal, r_id, created_at from reservations;"
+    cmd = "select id, g_id, r_id, check_in, check_out, meal from reservations;"
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
