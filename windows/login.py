@@ -2,7 +2,7 @@ from tkinter import messagebox
 import tkinter as tk
 from config import fonts
 from controller import *
-from .main_panels.main_window import MainWindow
+from .main_panels.main_window import mainWindow
 from .forgot_password import *
 
 def loginWindow():
@@ -19,7 +19,7 @@ def loginWindow():
         if checkUser(username.get().lower(), password.get()):
             login.destroy()
             user=username.get().lower()
-            MainWindow()
+            mainWindow()
         else:
             messagebox.showerror(title="Invalid Credentials", message="The username and password don't match")
             reset(password)
