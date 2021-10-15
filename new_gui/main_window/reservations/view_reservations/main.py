@@ -158,7 +158,7 @@ class ViewReservations(Frame):
             image=self.button_image_3,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("self.delete_btn clicked"),
+            command=self.handle_delete,
             relief="flat",
             state="disabled"
         )

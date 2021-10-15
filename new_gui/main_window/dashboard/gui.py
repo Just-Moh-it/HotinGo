@@ -281,7 +281,7 @@ class Dashboard(Frame):
             632.0,
             63.0,
             anchor="nw",
-            text=db_controller.meals(),
+            text = db_controller.meals(),
             fill="#5E95FF",
             font=("Montserrat Bold", 48 * -1)
         )

@@ -1,6 +1,6 @@
 import mysql.connector
 import os
-
+import matplotlib.pyplot as pt
 # Configurations
 from config import config
 from dotenv import load_dotenv
@@ -188,6 +188,16 @@ def vacant():
 def booked():
     return (get_total_rooms() - vacant())
 
+def bookings():
+    cmd = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'D'"
+    cursor.execute(cmd)
+    deluxe  = cursor.fetchone()[0]
+    cmd1 = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'N'"
+    cursor.execute(cmd1)
+    Normal  = cursor.fetchone()[0]
+    return [deluxe,Normal]
+
+
 # Get total money earned till date
 def get_total_money_earned():
     cmd = "select sum(price) from reservations as rs, rooms as rm where rs.r_id = rm.id;"
@@ -202,7 +212,12 @@ def get_total_hotel_value():
     cursor.execute(cmd)
     if cursor.rowcount==0:
         return False
-    return cursor.fetchone()[0]
+    value =  cursor.fetchone()[0]
+    if value >= 1000:
+        return str(value/1000)+'k'
+    elif value >= 1000000:
+        return str(value/1000000)+'m'
+
 
 def delete_reservation(id):
     cmd = f"delete from reservations where id='{id}';"
@@ -242,7 +257,7 @@ def update_guests(name,address,id,phone):
 
 def update_reservations(g_id,check_in,room_id,reservation_date,check_out,meal,type,id):
     cmd = f"update reservations set check_in = '{check_in}',check_out = '{check_out}',g_id = {g_id}, \
-        r_date = '{reservation_date}',meal = {meal},r_type={type}, r_id = {room_id} where id= {id};"
+        r_date = '{reservation_date}',meal = {meal},r_type='{type}', r_id = {room_id} where id= {id};"
     cursor.execute(cmd)
     if cursor.rowcount == 0:
             return False
@@ -251,4 +266,18 @@ def update_reservations(g_id,check_in,room_id,reservation_date,check_out,meal,ty
 def meals():
     cmd = f"select sum(meal) from reservations;"
     cursor.execute(cmd)
-    return cursor.fetchone()[0]
+    meals =  cursor.fetchone()[0]
+    if meals < 1000:
+        return meals
+    elif meals >= 1000:
+        return str(meals/1000)+'k'
+    elif meals >= 1000000:
+        return str(meals/1000000)+'m'
+
+def rooms_chart():
+    pt.pie([vacant(),booked()],[.1,.1],startangle=-30,colors=('#6495ED','#8A8A8A'))
+    pt.show()
+
+def bookings_chart():
+    pt.pie(bookings,[.1,.1],startangle=-30,colors=('#6495ED','#8A8A8A'))
+    pt.show()
