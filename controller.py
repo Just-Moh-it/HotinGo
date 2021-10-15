@@ -117,6 +117,11 @@ def printer(*args):
             returner+=(" " if not returner[-1:]=="\n" and posa!=0 else "")+arg
     return returner
 
+def get_details(r_id):
+        cmd = f"select room_no,room_type,price from rooms where id = {r_id};"
+        cursor.execute(cmd)
+        print(cursor.fetchall())
+
 
 # Get all guests
 def get_guests():
@@ -175,12 +180,13 @@ def get_total_rooms():
     return cursor.fetchone()[0]
 
 # Check if a room is vacant
-def is_vacant(room_no):
-    cmd = f"select count(id) from reservations where room_id = '{room_no}' and check_in < curdate();"
+def vacant():
+   cmd = f"select count(ros.id) from reservations rs, rooms ros where rs.r_id = ros.id and rs.check_out is Null;"
+   cursor.execute(cmd)
+   return cursor.fetchone()[0]
 
-# Get a list of vanacnt rooms
-def get_vacant_rooms():
-    cmd = ''
+def booked():
+    return (get_total_rooms() - vacant())
 
 # Get total money earned till date
 def get_total_money_earned():
@@ -218,3 +224,31 @@ def delete_guest(id):
     if cursor.rowcount == 0:
         return False
     return True
+
+def update_rooms(room_no,room_type,price):
+    cmd = f"update rooms set room_type = '{room_type}',price= {price}  where room_no = {room_no};"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+            return False
+    return True
+
+def update_guests(name,address,id,phone):
+    print(name,address,id)
+    cmd = f"update guests set address = {address},phone = {phone} , name = {name} where id = {id};"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+            return False
+    return True
+
+def update_reservations(g_id,check_in,room_id,reservation_date,check_out,meal,type,id):
+    cmd = f"update reservations set check_in = '{check_in}',check_out = '{check_out}',g_id = {g_id}, \
+        r_date = '{reservation_date}',meal = {meal},r_type={type}, r_id = {room_id} where id= {id};"
+    cursor.execute(cmd)
+    if cursor.rowcount == 0:
+            return False
+    return True
+
+def meals():
+    cmd = f"select sum(meal) from reservations;"
+    cursor.execute(cmd)
+    return cursor.fetchone()[0]

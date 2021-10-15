@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
-from controller import *
+import controller as db_controller
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -69,7 +69,7 @@ class Dashboard(Frame):
             84.0,
             63.0,
             anchor="nw",
-            text="350",
+            text=db_controller.vacant(),
             fill="#5E95FF",
             font=("Montserrat Bold", 48 * -1)
         )
@@ -107,7 +107,7 @@ class Dashboard(Frame):
             266.0,
             63.0,
             anchor="nw",
-            text="856",
+            text=db_controller.booked(),
             fill="#5E95FF",
             font=("Montserrat Bold", 48 * -1)
         )
@@ -243,7 +243,7 @@ class Dashboard(Frame):
             445.0,
             63.0,
             anchor="nw",
-            text="4.1k",
+            text=db_controller.get_total_hotel_value(),
             fill="#5E95FF",
             font=("Montserrat Bold", 48 * -1)
         )
@@ -281,7 +281,7 @@ class Dashboard(Frame):
             632.0,
             63.0,
             anchor="nw",
-            text="1.6k",
+            text=db_controller.meals(),
             fill="#5E95FF",
             font=("Montserrat Bold", 48 * -1)
         )

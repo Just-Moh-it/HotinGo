@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
-from controller import *
+from tkinter import Frame, Canvas, Entry, Label, Text, Button, PhotoImage, messagebox, StringVar, IntVar
+import controller as db_controller
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -27,7 +27,7 @@ class UpdateRooms(Frame):
             'id': StringVar(),
             'number': StringVar(),
             'type': StringVar(),
-            'price': StringVar(),
+            'price': IntVar(),
         }
 
 
@@ -234,7 +234,7 @@ class UpdateRooms(Frame):
             image=self.button_image_2,
             borderwidth=0,
             highlightthickness=0,
-            command=self.handle_update,
+            command= self.handle_update,
             relief="flat"
         )
         button_2.place(
@@ -247,5 +247,16 @@ class UpdateRooms(Frame):
 
 
     def handle_update(self):
-        print(self.data)
-        return
+        print([self.data['number'].get(),self.data['type'].get(),self.data['price'].get()])
+        result = db_controller.update_rooms(room_no = self.data['number'].get(),room_type = self.data['type'].get(),price = self.data['price'].get())
+       
+        if result:
+            messagebox.showinfo('Successful','Details updated successfully')
+            self.parent.navigate("view")
+            self.parent.windows.get('view').handle_refresh()
+            # clear all fields
+            for label in self.data.keys():
+                self.data[label].set(0)
+        else:
+            messagebox.showerror('Error','Failed to update details')
+           

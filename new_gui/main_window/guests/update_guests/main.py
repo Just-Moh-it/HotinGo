@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
-from controller import *
+from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar, IntVar
+import controller as db_controller
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -25,9 +25,9 @@ class UpdateGuests(Frame):
 
         self.data = {
             'id': StringVar(),
-            'number': StringVar(),
-            'type': StringVar(),
-            'price': StringVar(),
+            'name': StringVar(),
+            'address': StringVar(),
+            'phone': IntVar(),
         }
 
 
@@ -106,7 +106,7 @@ class UpdateGuests(Frame):
             72.0,
             172.0,
             anchor="nw",
-            text="1024",
+            text= lambda : self.selected_r_id,
             fill="#777777",
             font=("Montserrat SemiBold", 17 * -1)
         )
@@ -123,7 +123,7 @@ class UpdateGuests(Frame):
             71.56398010253906,
             251.0,
             anchor="nw",
-            text="Guest Type",
+            text="Guest Address",
             fill="#5E95FF",
             font=("Montserrat Bold", 14 * -1)
         )
@@ -137,7 +137,7 @@ class UpdateGuests(Frame):
         )
         entry_1 = Entry(self,
             font=("Montserrat Bold", 18 * -1),
-            textvariable=self.data['type'],
+            textvariable=self.data['address'],
             foreground="#777777",
             bd=0,
             bg="#EFEFEF",
@@ -162,7 +162,7 @@ class UpdateGuests(Frame):
             455.0473937988281,
             145.0,
             anchor="nw",
-            text="Guest Number",
+            text="Guest Name",
             fill="#5E95FF",
             font=("Montserrat Bold", 14 * -1)
         )
@@ -176,7 +176,7 @@ class UpdateGuests(Frame):
         )
         entry_2 = Entry(self,
             font=("Montserrat Bold", 18 * -1),
-            textvariable=self.data['number'],
+            textvariable=self.data['name'],
             foreground="#777777",
             bd=0,
             bg="#EFEFEF",
@@ -201,7 +201,7 @@ class UpdateGuests(Frame):
             455.0473937988281,
             253.0,
             anchor="nw",
-            text="Price",
+            text="Phone Number",
             fill="#5E95FF",
             font=("Montserrat Bold", 14 * -1)
         )
@@ -215,7 +215,7 @@ class UpdateGuests(Frame):
         )
         entry_3 = Entry(self,
             font=("Montserrat Bold", 18 * -1),
-            textvariable=self.data['price'],
+            textvariable=self.data['phone'],
             foreground="#777777",
             bd=0,
             bg="#EFEFEF",
@@ -247,5 +247,9 @@ class UpdateGuests(Frame):
 
 
     def handle_update(self):
-        print(self.data)
+        data = [x for x in [self.data[label].get() for label in ('id','name','address','phone')]]
+        
+        result = db_controller.update_guests(name = data[1],address = data[2],id = 3,phone= data[3])
+        if result:
+            print('fuck yes')
         return

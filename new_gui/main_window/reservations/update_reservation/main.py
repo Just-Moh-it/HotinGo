@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox, StringVar
-from controller import *
+import controller as db_controller
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -406,5 +406,7 @@ class UpdateReservations(Frame):
         )
 
     def handle_update(self):
-        print(self.data)
-        return
+        
+        data = [x for x in [self.data[label].get() for label in ('g_id','check_in','room_id','reservation_date','check_out','meal','type','id') ]]
+        results = db_controller.update_reservations(data[0],data[1],data[2],data[3],data[4],data[5],data[6],id=1)
+        print(data)

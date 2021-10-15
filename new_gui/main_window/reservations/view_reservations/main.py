@@ -176,7 +176,7 @@ class ViewReservations(Frame):
             image=self.button_image_4,
             borderwidth=0,
             highlightthickness=0,
-            command=lambda: print("self.edit_btn clicked"),
+            command=self.handle_edit,
             relief="flat",
             state="disabled"
 
@@ -316,3 +316,7 @@ class ViewReservations(Frame):
 
     def handle_delete(self):
         db_controller.delete_reservation(self.parent.selected_rid)
+    
+    def handle_edit(self):
+        self.parent.navigate('edit')
+        print(self.parent.windows.get('edit'))

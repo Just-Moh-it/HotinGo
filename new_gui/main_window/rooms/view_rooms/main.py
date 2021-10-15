@@ -279,7 +279,12 @@ class ViewRooms(Frame):
         self.handle_refresh()
 
 
+    
+        
 
     def handle_edit(self):
         print("Unable to set current id, navigating")
         self.parent.navigate('edit')
+        print(self.parent.windows.get('edit'))
+        db_controller.get_details(2)
+        #self.parent.windows.get('edit').get_details(self.parent.selected_rid)
