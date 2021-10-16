@@ -1,5 +1,7 @@
 from pathlib import Path
-
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
+NavigationToolbar2Tk)
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
 import controller as db_controller
 
@@ -341,13 +343,13 @@ class Dashboard(Frame):
             fill="#5E95FF",
             font=("Montserrat Bold", 26 * -1)
         )
-
+        '''
         canvas.create_rectangle(
             57.0,
             250.0,
             276.0,
             383.0,
-            fill="#EFEFEF",
+            fill="#5E95FF",
             outline="")
 
         canvas.create_rectangle(
@@ -356,7 +358,7 @@ class Dashboard(Frame):
             577.0,
             383.0,
             fill="#EFEFEF",
-            outline="")
+            outline="")'''
 
         canvas.entry_image_10 = PhotoImage(
             file=relative_to_assets("entry_10.png"))
@@ -521,3 +523,31 @@ class Dashboard(Frame):
             298.0,
             image=canvas.image_image_1
         )
+
+        fig = Figure(figsize = (2.2, 1.30),dpi = 100)
+        fig.patch.set_facecolor('#eeefee')
+
+        plot1 = fig.add_subplot(111)
+        plot1.pie([db_controller.vacant(),db_controller.booked()],[.1,.1],
+                startangle=-30,colors=('#6495ED','#8A8A8A'),shadow=True)
+        
+        canvas1 =  FigureCanvasTkAgg(fig,self)
+        canvas1.draw()
+        canvas1.get_tk_widget().place(x=57,y=253)
+
+
+        fig1 = Figure(figsize = (2.2, 1.30),dpi = 100)
+        fig1.patch.set_facecolor('#eeefee')
+
+        plot2 = fig1.add_subplot(111)
+        plot2.pie(db_controller.bookings(),[.1,.1],
+                startangle=-30,colors=('#6495ED','#8A8A8A'),shadow=True)
+
+        canvas2 =  FigureCanvasTkAgg(fig1,self)
+        canvas2.draw()
+        canvas2.get_tk_widget().place(x=359,y=253)
+
+
+
+
+        

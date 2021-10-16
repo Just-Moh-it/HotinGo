@@ -120,7 +120,7 @@ def printer(*args):
 def get_details(r_id):
         cmd = f"select room_no,room_type,price from rooms where id = {r_id};"
         cursor.execute(cmd)
-        print(cursor.fetchall())
+        
 
 
 # Get all guests
@@ -180,21 +180,27 @@ def get_total_rooms():
     return cursor.fetchone()[0]
 
 # Check if a room is vacant
-def vacant():
+def booked():
    cmd = f"select count(ros.id) from reservations rs, rooms ros where rs.r_id = ros.id and rs.check_out is Null;"
    cursor.execute(cmd)
+
+   return cursor.fetchone()[0]
    return cursor.fetchone()[0]
 
-def booked():
-    return (get_total_rooms() - vacant())
+def vacant():
+    
+    return (get_total_rooms() - booked())
 
 def bookings():
-    cmd = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'D'"
+    cmd = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'D';"
     cursor.execute(cmd)
     deluxe  = cursor.fetchone()[0]
-    cmd1 = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'N'"
+    
+    cmd1 = f"select count(rs.id) from reservations rs , rooms ros where rs.r_id = ros.id and ros.room_type = 'N';"
     cursor.execute(cmd1)
     Normal  = cursor.fetchone()[0]
+    
+    
     return [deluxe,Normal]
 
 
@@ -248,7 +254,7 @@ def update_rooms(room_no,room_type,price):
     return True
 
 def update_guests(name,address,id,phone):
-    print(name,address,id)
+    
     cmd = f"update guests set address = {address},phone = {phone} , name = {name} where id = {id};"
     cursor.execute(cmd)
     if cursor.rowcount == 0:
