@@ -14,6 +14,7 @@ ASSETS_PATH = OUTPUT_PATH / Path("./assets")
 def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 
+
 def guests():
     Guests()
 
@@ -23,21 +24,20 @@ class Guests(Frame):
         Frame.__init__(self, parent, *args, **kwargs)
         # self.controller = parent.controller
         self.parent = parent
-        self.selected_rid=None
+        self.selected_rid = None
 
         # self.geometry("797x432")
-        self.configure(bg = "#FFFFFF")
+        self.configure(bg="#FFFFFF")
 
         # Loop through windows and place them
         self.windows = {
-            'add': AddGuests(self),
-            'view': ViewGuests(self),
-            'edit': UpdateGuests(self),
+            "add": AddGuests(self),
+            "view": ViewGuests(self),
+            "edit": UpdateGuests(self),
         }
 
-        self.current_window = self.windows['add']
-        self.current_window.place(x=0, y=0, width=1013.0,
-            height=506.0)
+        self.current_window = self.windows["add"]
+        self.current_window.place(x=0, y=0, width=1013.0, height=506.0)
 
         self.current_window.tkraise()
 
@@ -47,6 +47,4 @@ class Guests(Frame):
             window.place_forget()
 
         # Show the screen of the button pressed
-        self.windows[name].place(x=0, y=0, width=1013.0,
-            height=506.0)
-
+        self.windows[name].place(x=0, y=0, width=1013.0, height=506.0)
