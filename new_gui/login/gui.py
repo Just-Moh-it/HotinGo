@@ -24,7 +24,6 @@ class Login(Toplevel):
         global user
         if checkUser(self.username.get().lower(), self.password.get()):
             user = self.username.get().lower()
-            # messagebox.showinfo(title="MainWindow", message="The username and self.password don't match")
             self.destroy()
             mainWindow()
             return

@@ -23,12 +23,10 @@ def rooms():
 class Rooms(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.selected_rid = None
         self.room_data = db_controller.get_rooms()
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         # Loop through windows and place them

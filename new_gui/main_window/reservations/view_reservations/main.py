@@ -29,11 +29,9 @@ def view_reservations():
 class ViewReservations(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.search_query = StringVar()
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         self.canvas = Canvas(

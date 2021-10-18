@@ -18,11 +18,9 @@ def add_reservations():
 class AddReservations(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.data = {"g_id": "", "check_in": "", "meal": "", "r_id": ""}
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         self.canvas = Canvas(

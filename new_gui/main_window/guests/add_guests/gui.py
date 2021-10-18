@@ -27,7 +27,6 @@ def add_guests():
 class AddGuests(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.data = {
             "name": StringVar(),
@@ -36,7 +35,6 @@ class AddGuests(Frame):
             "email": StringVar(),
         }
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         self.canvas = Canvas(

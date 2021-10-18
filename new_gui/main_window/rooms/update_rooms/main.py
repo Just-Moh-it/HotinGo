@@ -29,11 +29,9 @@ def update_rooms():
 class UpdateRooms(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.selected_r_id = self.parent.selected_rid
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         self.data = {

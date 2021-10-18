@@ -27,11 +27,9 @@ def add_rooms():
 class AddRooms(Frame):
     def __init__(self, parent, controller=None, *args, **kwargs):
         Frame.__init__(self, parent, *args, **kwargs)
-        # self.controller = parent.controller
         self.parent = parent
         self.data = {"r_no": StringVar(), "type": StringVar(), "price": StringVar()}
 
-        # self.geometry("797x432")
         self.configure(bg="#FFFFFF")
 
         self.canvas = Canvas(
