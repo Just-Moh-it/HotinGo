@@ -1,7 +1,8 @@
 from pathlib import Path
 
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
-from controller import *
+import controller as db_controller
+
 
 from .add_room.gui import AddRooms
 from .view_rooms.main import ViewRooms
@@ -25,6 +26,7 @@ class Rooms(Frame):
         # self.controller = parent.controller
         self.parent = parent
         self.selected_rid = None
+        self.room_data= db_controller.get_rooms()
 
         # self.geometry("797x432")
         self.configure(bg="#FFFFFF")

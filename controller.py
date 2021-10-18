@@ -286,8 +286,8 @@ def delete_guest(id):
     return True
 
 
-def update_rooms(room_no, room_type, price):
-    cmd = f"update rooms set room_type = '{room_type}',price= {price}  where room_no = {room_no};"
+def update_rooms(id,room_no, room_type, price):
+    cmd = f"update rooms set room_type = '{room_type}',price= {price}, room_no = {room_no} where id = {id};"
     cursor.execute(cmd)
     if cursor.rowcount == 0:
         return False
@@ -296,7 +296,7 @@ def update_rooms(room_no, room_type, price):
 
 def update_guests(name, address, id, phone):
 
-    cmd = f"update guests set address = {address},phone = {phone} , name = {name} where id = {id};"
+    cmd = f"update guests set address = '{address}',phone = {phone} , name = '{name}' where id = {id};"
     cursor.execute(cmd)
     if cursor.rowcount == 0:
         return False

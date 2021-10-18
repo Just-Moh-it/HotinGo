@@ -239,5 +239,4 @@ class ViewRooms(Frame):
 
     def handle_edit(self):
         self.parent.navigate("edit")
-        db_controller.get_details(2)
-        # self.parent.windows.get('edit').get_details(self.parent.selected_rid)
+        self.parent.windows["edit"].initialize()

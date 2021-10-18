@@ -240,3 +240,4 @@ class ViewGuests(Frame):
 
     def handle_edit(self):
         self.parent.navigate("edit")
+        self.parent.windows["edit"].initialize()

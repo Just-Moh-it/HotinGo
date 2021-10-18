@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from tkinter import Frame, Canvas, Entry, Text, Button, PhotoImage, messagebox
-from controller import *
+import controller as db_controller
 
 from .add_guests.gui import AddGuests
 from .view_guests.main import ViewGuests
@@ -25,6 +25,7 @@ class Guests(Frame):
         # self.controller = parent.controller
         self.parent = parent
         self.selected_rid = None
+        self.guest_data = db_controller.get_guests()
 
         # self.geometry("797x432")
         self.configure(bg="#FFFFFF")

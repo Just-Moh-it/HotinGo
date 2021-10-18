@@ -42,6 +42,8 @@ class UpdateGuests(Frame):
             "phone": IntVar(),
         }
 
+        self.initialize()
+
         self.canvas = Canvas(
             self,
             bg="#FFFFFF",
@@ -98,11 +100,11 @@ class UpdateGuests(Frame):
             font=("Montserrat Bold", 14 * -1),
         )
 
-        self.canvas.create_text(
+        self.id_text = self.canvas.create_text(
             72.0,
             172.0,
             anchor="nw",
-            text=lambda: self.selected_r_id,
+            text="1024",
             fill="#777777",
             font=("Montserrat SemiBold", 17 * -1),
         )
@@ -201,16 +203,36 @@ class UpdateGuests(Frame):
         )
         button_2.place(x=326.0, y=339.0, width=144.0, height=48.0)
 
+    def initialize(self):
+        self.selected_r_id = self.parent.selected_rid
+        self.guests_data = self.parent.guest_data
+        
+        # Filter out all reservations for selected id reservation
+        self.selected_guests_data = list(
+            filter(lambda x: str(x[0]) == self.selected_r_id, self.guests_data)
+        )
+       
+        if self.selected_guests_data:
+            self.selected_guests_data = self.selected_guests_data[0]
+
+            self.canvas.itemconfigure(
+                self.id_text, text=self.selected_guests_data[0]
+            )
+            self.data["name"].set(self.selected_guests_data[1])
+            self.data["address"].set(self.selected_guests_data[2])
+            self.data["phone"].set(self.selected_guests_data[4])
+
+
     def handle_update(self):
         data = [
             x
             for x in [
-                self.data[label].get() for label in ("id", "name", "address", "phone")
+                self.data[label].get() for label in ( "name", "address", "phone")
             ]
         ]
 
         result = db_controller.update_guests(
-            name=data[1], address=data[2], id=3, phone=data[3]
+            name=data[0], address=data[1], phone=data[2],id =self.selected_r_id
         )
         if result:
             messagebox.showinfo("Success", "Guest Updated")
