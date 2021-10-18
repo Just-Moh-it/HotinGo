@@ -31,7 +31,7 @@ CREATE TABLE `guests` (
   `city` varchar(20) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `guests` (
 
 LOCK TABLES `guests` WRITE;
 /*!40000 ALTER TABLE `guests` DISABLE KEYS */;
-INSERT INTO `guests` VALUES (1,'xdc','sdasdasdasv','ajbjccb',1242415216126,'njn','2021-08-13 01:34:03');
+INSERT INTO `guests` VALUES (3,'Anirudh','India','dsadfasffasff',3212453,NULL,'2021-10-14 08:51:19'),(4,'Mohit','India','mohit@gmail.com',1111111111,NULL,'2021-10-17 05:19:02'),(5,'Manish Sir','NMS','manishhim@gmail.com',913841324,NULL,'2021-10-17 06:58:23');
 /*!40000 ALTER TABLE `guests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('mohit2004','password','Where were you born','Behror','2021-08-13 01:34:25');
+INSERT INTO `login` VALUES ('a','a','a','a','2021-10-14 08:56:21'),('mohit2004','password','Where were you born','Behror','2021-08-13 01:34:25');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +93,7 @@ CREATE TABLE `reservations` (
   KEY `FK_rooms` (`r_id`),
   CONSTRAINT `FK_guests` FOREIGN KEY (`g_id`) REFERENCES `guests` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_rooms` FOREIGN KEY (`r_id`) REFERENCES `rooms` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -102,7 +102,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES (1,1,NULL,'2021-10-09 00:00:00',NULL,0,1,NULL,'2021-10-09 11:59:35'),(5,1,NULL,'2021-10-10 00:00:00',NULL,0,1,NULL,'2021-10-09 12:01:13');
+INSERT INTO `reservations` VALUES (12,4,'2021-10-15 00:00:00','2021-10-15 00:00:00','2021-10-15 00:00:00',0,3,'B','2021-10-15 07:05:05'),(13,3,NULL,'2021-10-17 05:33:05',NULL,1,1,NULL,'2021-10-17 05:33:05');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,7 +122,7 @@ CREATE TABLE `rooms` (
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `room_no` (`room_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,7 @@ CREATE TABLE `rooms` (
 
 LOCK TABLES `rooms` WRITE;
 /*!40000 ALTER TABLE `rooms` DISABLE KEYS */;
-INSERT INTO `rooms` VALUES (1,1,3000,'B',0,'2021-10-09 11:58:54');
+INSERT INTO `rooms` VALUES (1,1,4500,'D',0,'2021-10-15 07:05:03'),(3,2,3402,'D',0,'2021-10-16 10:38:49'),(4,10,2300,'D',0,'2021-10-17 05:15:29'),(5,4,3124,'N',0,'2021-10-17 05:15:38'),(6,69,3241,'N',0,'2021-10-17 05:16:09'),(7,3,4000,'D',0,'2021-10-17 05:16:33'),(9,5,2341,'D',0,'2021-10-17 05:17:29'),(10,21,3045,'D',0,'2021-10-17 06:57:46');
 /*!40000 ALTER TABLE `rooms` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -144,4 +144,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-14  7:45:50
+-- Dump completed on 2021-10-18  9:28:53
