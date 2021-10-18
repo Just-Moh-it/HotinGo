@@ -10,15 +10,6 @@ config = {
     "DB_HOST": "mohityadav.codes",
     # Localhost Details
     # 'DB_HOSt': 'localhost',
-    # 'SEC_QUES':[
-    # "What was the first movie you watched at the cinema?",
-    # "Where were you born?",
-    # "What was the name of your first pet?",
-    # "What is your favourite dish?",
-    # "What brand was your first car of?",
-    # "what is your favourite movie?",
-    # "What is your favourite colour?"
-    # ],
     "acceptables": (
         *[chr(i) for i in range(97, 123)],
         "_",

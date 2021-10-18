@@ -264,22 +264,6 @@ class Dashboard(Frame):
             fill="#5E95FF",
             font=("Montserrat Bold", 26 * -1),
         )
-        """
-        canvas.create_rectangle(
-            57.0,
-            250.0,
-            276.0,
-            383.0,
-            fill="#5E95FF",
-            outline="")
-
-        canvas.create_rectangle(
-            359.0,
-            250.0,
-            577.0,
-            383.0,
-            fill="#EFEFEF",
-            outline="")"""
 
         canvas.entry_image_10 = PhotoImage(file=relative_to_assets("entry_10.png"))
         entry_bg_10 = canvas.create_image(251.0, 218.5, image=canvas.entry_image_10)

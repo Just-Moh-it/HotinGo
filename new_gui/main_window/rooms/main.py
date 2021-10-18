@@ -26,7 +26,7 @@ class Rooms(Frame):
         # self.controller = parent.controller
         self.parent = parent
         self.selected_rid = None
-        self.room_data= db_controller.get_rooms()
+        self.room_data = db_controller.get_rooms()
 
         # self.geometry("797x432")
         self.configure(bg="#FFFFFF")

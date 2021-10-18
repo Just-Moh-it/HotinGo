@@ -34,11 +34,6 @@ class Login(Toplevel):
                 message="The username and self.password don't match",
             )
 
-    # # Forgot Password Button
-    # def forgotPwd():
-    #     login.destroy()
-    #     forgotPwdWindow()
-
     def __init__(self, *args, **kwargs):
 
         Toplevel.__init__(self, *args, **kwargs)

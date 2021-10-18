@@ -301,12 +301,11 @@ class UpdateReservations(Frame):
     def initialize(self):
         self.selected_r_id = self.parent.selected_rid
         self.reservation_data = self.parent.reservation_data
-        
+
         # Filter out all reservations for selected id reservation
         self.selected_reservation_data = list(
             filter(lambda x: str(x[0]) == self.selected_r_id, self.reservation_data)
         )
-        
 
         if self.selected_reservation_data:
             self.selected_reservation_data = self.selected_reservation_data[0]

@@ -60,23 +60,6 @@ def updateUsername(oldusername, password, newusername):
     return cursor.fetchone()[0] >= 1
 
 
-# def availableRooms(status='v'):
-#     # Returns number of rooms either booked or unbooked
-#     # Status can be 'b' for booked or 'v' for vacant ot total by default for total rooms
-#     if status.casefold()=='b':
-#         cursor.execute("select count(id) from rooms where currently_booked='1';")
-#     elif status.casefold()=='t':
-#         cursor.execute("select count(id) from rooms")
-#     else:
-#         cursor.execute("select count(id) from rooms where currently_booked='0';")
-#     return cursor.fetchone()[0]
-
-
-def totalamount(room_no):
-    cmd = f"select datediff(check_out , check_in) * rooms.price from reservations, rooms where reservations.room_id = rooms.room_id and rooms.room_id = '{room_no}';"
-    cursor.execute(cmd)
-    return str(cursor.fetchone()[0])
-
 
 def find_g_id(name):
     cmd = f"select g_id from guests where name = '{name}'"
@@ -96,13 +79,6 @@ def checkin(g_id):
     else:
         return "No reservations for the given Guest"
 
-
-# def reserve(r_id,g_id,meal,room_id,r_type):
-#     cmd1 = f"insert into reservations values('{r_id}','{g_id}',curdate(),Null,Null,'{meal}','{room_id}','{r_type}')"
-#     cmd2 = f"update rooms set currently_booked = 1 where room_id = '{room_id}'"
-#     cursor.execute(cmd2)
-#     cursor.execute(cmd1)
-#     return cursor.fetchall()
 
 
 def checkout(id):
@@ -126,29 +102,6 @@ def acceptable(*args, acceptables):
                 return False
     return True
 
-
-#
-def printer(*args):
-    """
-    Takes arguments like that in print and returns string like print() function
-    """
-    returner = ""
-    for posa, arg in enumerate(args):
-        if type(arg) in (list, tuple):
-            for posi, item in enumerate(arg):
-                returner += (
-                    (", " if posi != 0 else "\n\t")
-                    + item
-                    + ("\n" if posi == len(arg) - 1 else "")
-                )
-        else:
-            returner += (" " if not returner[-1:] == "\n" and posa != 0 else "") + arg
-    return returner
-
-
-def get_details(r_id):
-    cmd = f"select room_no,room_type,price from rooms where id = {r_id};"
-    cursor.execute(cmd)
 
 
 # Get all guests
@@ -220,11 +173,9 @@ def booked():
     cursor.execute(cmd)
 
     return cursor.fetchone()[0]
-    return cursor.fetchone()[0]
 
 
 def vacant():
-
     return get_total_rooms() - booked()
 
 
@@ -238,17 +189,6 @@ def bookings():
     Normal = cursor.fetchone()[0]
 
     return [deluxe, Normal]
-
-
-# Get total money earned till date
-def get_total_money_earned():
-    cmd = (
-        "select sum(price) from reservations as rs, rooms as rm where rs.r_id = rm.id;"
-    )
-    cursor.execute(cmd)
-    if cursor.rowcount == 0:
-        return False
-    return cursor.fetchone()[0]
 
 
 # Get total hotel value
@@ -286,7 +226,7 @@ def delete_guest(id):
     return True
 
 
-def update_rooms(id,room_no, room_type, price):
+def update_rooms(id, room_no, room_type, price):
     cmd = f"update rooms set room_type = '{room_type}',price= {price}, room_no = {room_no} where id = {id};"
     cursor.execute(cmd)
     if cursor.rowcount == 0:

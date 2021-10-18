@@ -204,29 +204,26 @@ class UpdateRooms(Frame):
         )
         button_2.place(x=326.0, y=339.0, width=144.0, height=48.0)
 
-
     def initialize(self):
         self.selected_r_id = self.parent.selected_rid
         self.rooms_data = self.parent.room_data
-        
+
         # Filter out all reservations for selected id reservation
         self.selected_rooms_data = list(
             filter(lambda x: str(x[0]) == self.selected_r_id, self.rooms_data)
         )
-       
+
         if self.selected_rooms_data:
             self.selected_rooms_data = self.selected_rooms_data[0]
 
-            self.canvas.itemconfigure(
-                self.id_text, text=self.selected_rooms_data[0]
-            )
+            self.canvas.itemconfigure(self.id_text, text=self.selected_rooms_data[0])
             self.data["number"].set(self.selected_rooms_data[1])
             self.data["type"].set(self.selected_rooms_data[2])
             self.data["price"].set(self.selected_rooms_data[3])
-            
 
     def handle_update(self):
-        result = db_controller.update_rooms(self.selected_r_id,
+        result = db_controller.update_rooms(
+            self.selected_r_id,
             room_no=self.data["number"].get(),
             room_type=self.data["type"].get(),
             price=self.data["price"].get(),
