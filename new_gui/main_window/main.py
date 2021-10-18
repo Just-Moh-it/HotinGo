@@ -224,3 +224,7 @@ class MainWindow(Toplevel):
         # Handle label change
         current_name = self.windows.get(name)._name.split("!")[-1].capitalize()
         self.canvas.itemconfigure(self.heading, text=current_name)
+
+    def handle_dashboard_refresh(self):
+        # Recreate the dash window
+        self.windows["dash"] = Dashboard(self)

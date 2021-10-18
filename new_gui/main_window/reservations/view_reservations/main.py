@@ -31,6 +31,7 @@ class ViewReservations(Frame):
         Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.search_query = StringVar()
+        self.reservation_data = None
 
         self.configure(bg="#FFFFFF")
 
@@ -233,7 +234,7 @@ class ViewReservations(Frame):
             )
         # Get the selected reservation
         db_controller.checkout(self.parent.selected_rid)
-        self.handle_refresh()
+        self.parent.refresh_entries()
 
     def filter_treeview_records(self, query):
         self.treeview.delete(*self.treeview.get_children())
@@ -262,9 +263,18 @@ class ViewReservations(Frame):
 
     def handle_refresh(self):
         self.treeview.delete(*self.treeview.get_children())
-        self.reservation_data = self.parent.reservation_data
+        if self.reservation_data:
+            self.reservation_data = db_controller.get_reservations()
+        else:
+            self.reservation_data = self.parent.reservation_data
+
         for row in self.reservation_data:
             self.treeview.insert("", "end", values=row)
+
+        # Refresh the dashboard
+        try: self.parent.parent.handle_dashboard_refresh()
+        except: pass
+
 
     def handle_navigate_back(self):
         self.parent.navigate("add")

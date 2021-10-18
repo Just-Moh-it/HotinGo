@@ -398,3 +398,4 @@ class Dashboard(Frame):
         canvas2 = FigureCanvasTkAgg(fig1, self)
         canvas2.draw()
         canvas2.get_tk_widget().place(x=359, y=253)
+

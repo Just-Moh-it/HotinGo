@@ -207,6 +207,8 @@ class AddReservations(Frame):
         if result:
             messagebox.showinfo("Success", "Reservation added successfully")
             self.parent.navigate("view")
+            self.parent.refresh_entries()
+
             # clear all fields
             for label in self.data.keys():
                 self.data[label].delete(0, "end")

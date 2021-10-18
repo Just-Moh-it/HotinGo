@@ -233,6 +233,7 @@ class UpdateRooms(Frame):
             self.parent.windows.get("view").handle_refresh()
             # clear all fields
             for label in self.data.keys():
-                self.data[label].set(0)
+                self.data[label].set("")
+            self.parent.windows['view'].handle_refresh()
         else:
             messagebox.showerror("Error", "Failed to update details")

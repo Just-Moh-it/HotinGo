@@ -331,9 +331,21 @@ class UpdateReservations(Frame):
         # Update data and show alert
         if db_controller.update_reservation(self.selected_r_id, *data):
             messagebox.showinfo("Success", "Reservation Updated Successfully")
+            self.parent.navigate("view")
+
+            self.reset()
+
         else:
             messagebox.showerror(
                 "Error", "Error Updating Reservation. Please check all ids exist"
             )
 
-        self.parent.navigate("view")
+        self.parent.refresh_entries()
+    def reset(self):
+        # clear all entries
+        for label in self.data:
+            self.data[label].set("")
+
+        self.canvas.itemconfigure(
+            self.id_text, text="Select source first..."
+        )

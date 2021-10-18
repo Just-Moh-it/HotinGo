@@ -231,5 +231,11 @@ class Login(Toplevel):
             fill="#FFFFFF",
             font=("Montserrat Regular", 18 * -1),
         )
+
+        # Bind enter to form submit
+        self.username.bind("<Return>", lambda x: self.loginFunc())
+        self.password.bind("<Return>", lambda x: self.loginFunc())
+
+        # Essentials
         self.resizable(False, False)
         self.mainloop()

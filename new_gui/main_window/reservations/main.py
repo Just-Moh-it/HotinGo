@@ -48,3 +48,7 @@ class Reservations(Frame):
 
         # Show the screen of the button pressed
         self.windows[name].place(x=0, y=0, width=1013.0, height=506.0)
+
+    def refresh_entries(self):
+        self.reservation_data = db_controller.get_reservations()
+        self.windows.get("view").handle_refresh()

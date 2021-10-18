@@ -230,4 +230,6 @@ class UpdateGuests(Frame):
         if result:
             messagebox.showinfo("Success", "Guest Updated")
             self.parent.navigate("view")
-        return
+            self.parent.windows['view'].handle_refresh()
+        else:
+            messagebox.showerror("Error", "Failed to update guest. Please Verify that all IDs are correct.")
