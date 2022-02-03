@@ -158,7 +158,7 @@ class MainWindow(Toplevel):
             anchor="nw",
             text="Administrator",
             fill="#808080",
-            font=("Montserrat Medium", 16 * -1),
+            font=("Montserrat Bold", 16 * -1),
         )
 
         self.canvas.create_text(

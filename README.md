@@ -238,7 +238,11 @@ This will create and setup the database.
 
 Start by renaming the `.example.env` file just `.env`, and then replacing the `Your-Username` and `Your-Password` values with the MySQL credentials.
 
-### 6: It's done 🎉 | Run the app
+### 6: Installing Fonts
+
+In order to make the app's gui look good, you will have to install the Montserrat font. From the `assets` folder, install all three fonts (with `.ttf` format) by double clicking them.
+
+### 7: It's done 🎉 | Run the app
 
 Run `main.py` file with python 3 and you should see the login window, if you have followed each step correctly.
 
