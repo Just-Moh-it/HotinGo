@@ -9,7 +9,7 @@ root.withdraw()  # WithDraw the window
 
 if __name__ == "__main__":
 
-    loginWindow()
-    # mainWindow()
+    # loginWindow()
+    mainWindow()
 
     root.mainloop()

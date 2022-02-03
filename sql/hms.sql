@@ -19,6 +19,8 @@
 -- Table structure for table `guests`
 --
 
+CREATE DATABASE IF NOT EXISTS hms;
+
 DROP TABLE IF EXISTS `guests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -40,7 +42,7 @@ CREATE TABLE `guests` (
 
 LOCK TABLES `guests` WRITE;
 /*!40000 ALTER TABLE `guests` DISABLE KEYS */;
-INSERT INTO `guests` VALUES (3,'Anirudh','India','dsadfasffasff',3212453,NULL,'2021-10-14 08:51:19'),(4,'Mohit','India','mohit@gmail.com',1111111111,NULL,'2021-10-17 05:19:02'),(5,'Manish Sir','NMS','manishhim@gmail.com',913841324,NULL,'2021-10-17 06:58:23');
+INSERT INTO `guests` VALUES (3,'John Doe','US','john@doe.com',1231231231,"NYC",'2021-10-14 08:51:19'),(4,'Mohit Yadav','India','mohit@mohit.yayy.me',1111111111,"Jaipur",'2021-10-17 05:19:02'),(5,'Anirudh','NMS','anisin300@gmail.com',9191919191,"Jaipur",'2021-10-17 06:58:23');
 /*!40000 ALTER TABLE `guests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,8 +56,8 @@ DROP TABLE IF EXISTS `login`;
 CREATE TABLE `login` (
   `username` varchar(15) NOT NULL,
   `password` varchar(10) NOT NULL,
-  `sec_que` varchar(100) NOT NULL,
-  `sec_ans` varchar(30) NOT NULL,
+  `sec_que` varchar(100) NULL,
+  `sec_ans` varchar(30) NULL,
   `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -67,7 +69,7 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('a','a','a','a','2021-10-14 08:56:21'),('mohit2004','password','Where were you born','Behror','2021-08-13 01:34:25');
+INSERT INTO `login` VALUES ('username','password', NULL, NULL,'2021-08-13 01:34:25');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
 UNLOCK TABLES;
 

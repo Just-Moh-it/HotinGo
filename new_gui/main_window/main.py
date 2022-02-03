@@ -1,11 +1,8 @@
 from pathlib import Path
-import config
 from tkinter import (
     Toplevel,
     Frame,
     Canvas,
-    Entry,
-    Text,
     Button,
     PhotoImage,
     messagebox,
@@ -73,6 +70,7 @@ class MainWindow(Toplevel):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.handle_btn_press(self.dashboard_btn, "dash"),
+            cursor='hand2', activebackground="#5E95FF",
             relief="flat",
         )
         self.dashboard_btn.place(x=7.0, y=133.0, width=208.0, height=47.0)
@@ -84,6 +82,7 @@ class MainWindow(Toplevel):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.handle_btn_press(self.rooms_btn, "roo"),
+            cursor='hand2', activebackground="#5E95FF",
             relief="flat",
         )
         self.rooms_btn.place(x=7.0, y=183.0, width=208.0, height=47.0)
@@ -95,6 +94,7 @@ class MainWindow(Toplevel):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.handle_btn_press(self.guests_btn, "gue"),
+            cursor='hand2', activebackground="#5E95FF",
             relief="flat",
         )
         self.guests_btn.place(x=7.0, y=283.0, width=208.0, height=47.0)
@@ -106,6 +106,7 @@ class MainWindow(Toplevel):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.handle_btn_press(self.about_btn, "abt"),
+            cursor='hand2', activebackground="#5E95FF",
             relief="flat",
         )
         self.about_btn.place(x=7.0, y=333.0, width=208.0, height=47.0)
@@ -128,6 +129,7 @@ class MainWindow(Toplevel):
             borderwidth=0,
             highlightthickness=0,
             command=lambda: self.handle_btn_press(self.reservations_btn, "res"),
+            cursor='hand2', activebackground="#5E95FF",
             relief="flat",
         )
         self.reservations_btn.place(x=7.0, y=233.0, width=208.0, height=47.0)

@@ -1,8 +1,5 @@
 # NMS-Project-HMS
 
-## Status: In development
-The project is being developed currently.
-
 ## Introduction / Tech-Stack
 This is part of a IP (~CS) project By Anirudh Agarwal and Mohit Yadav, who have teamed up to create a Hotel Management System using only 
 * Python 3.7 for backend
