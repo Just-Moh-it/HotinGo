@@ -3,6 +3,7 @@ from pathlib import Path
 from tkinter import Toplevel, Tk, Canvas, Entry, Text, Button, PhotoImage, messagebox
 from controller import *
 from ..main_window.main import mainWindow
+import bcrypt
 
 OUTPUT_PATH = Path(__file__).parent
 ASSETS_PATH = OUTPUT_PATH / Path("./assets")
@@ -23,6 +24,17 @@ class Login(Toplevel):
     def loginFunc(self):
         global user
         if checkUser(self.username.get().lower(), self.password.get()):
+            
+            salt = bcrypt.gensalt()
+
+            password = "user_password"
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
+            
+            entered_password = "user_entered_password"
+
+            if bcrypt.checkpw(entered_password.encode('utf-8'), hashed_password):
+                print("password is incorrect.")
+            
             user = self.username.get().lower()
             self.destroy()
             mainWindow()
