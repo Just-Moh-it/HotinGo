@@ -26,7 +26,6 @@ class Login(Toplevel):
         if checkUser(self.username.get().lower(), self.password.get()):
             
             salt = bcrypt.gensalt()
-
             password = "user_password"
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
             
